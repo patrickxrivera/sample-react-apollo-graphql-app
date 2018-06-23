@@ -1,6 +1,6 @@
-const Query = require('./Query');
-const Mutation = require('./Mutation');
-const AuthPayload = require('./AuthPayload');
+const Query = require('./Queries');
+const Mutation = require('./Mutations');
+const AuthPayload = require('./Payloads/Auth');
 
 module.exports = {
   Query,

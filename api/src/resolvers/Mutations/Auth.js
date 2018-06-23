@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { APP_SECRET, getUserId } = require('../utils');
+const { APP_SECRET } = require('../../utils');
 
 const signup = async (root, { password, ...rest }, ctx, info) => {
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -41,27 +41,7 @@ const login = async (root, { email, password }, ctx, info) => {
   };
 };
 
-const createPeerCircle = (root, { name, description }, ctx, info) => {
-  const userId = getUserId(ctx);
-
-  return ctx.db.mutation.createPeerCircle(
-    {
-      data: {
-        name,
-        description,
-        admin: { connect: { id: userId } }
-      }
-    },
-    info
-  );
-};
-
-const deletePeerCircle = (root, { id }, ctx, info) =>
-  ctx.db.mutation.deletePeerCircle({ where: { id } }, info);
-
 module.exports = {
   signup,
-  login,
-  createPeerCircle,
-  deletePeerCircle
+  login
 };
