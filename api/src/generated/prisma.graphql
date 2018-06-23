@@ -1,11 +1,11 @@
 # source: https://us1.prisma.sh/public-nickelfairy-857/career-karma-api/dev
-# timestamp: Fri Jun 22 2018 20:48:05 GMT-0700 (PDT)
+# timestamp: Sat Jun 23 2018 11:37:26 GMT-0700 (PDT)
 
-type AggregateComment {
+type AggregateAuthPayload {
   count: Int!
 }
 
-type AggregateMessage {
+type AggregateComment {
   count: Int!
 }
 
@@ -19,6 +19,146 @@ type AggregateThread {
 
 type AggregateUser {
   count: Int!
+}
+
+type AuthPayload {
+  token: String
+  user(where: UserWhereInput): User
+}
+
+"""A connection to a list of items."""
+type AuthPayloadConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [AuthPayloadEdge]!
+  aggregate: AggregateAuthPayload!
+}
+
+input AuthPayloadCreateInput {
+  token: String
+  user: UserCreateOneInput
+}
+
+"""An edge in a connection."""
+type AuthPayloadEdge {
+  """The item at the end of the edge."""
+  node: AuthPayload!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum AuthPayloadOrderByInput {
+  token_ASC
+  token_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type AuthPayloadPreviousValues {
+  token: String
+}
+
+type AuthPayloadSubscriptionPayload {
+  mutation: MutationType!
+  node: AuthPayload
+  updatedFields: [String!]
+  previousValues: AuthPayloadPreviousValues
+}
+
+input AuthPayloadSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [AuthPayloadSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [AuthPayloadSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [AuthPayloadSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: AuthPayloadWhereInput
+}
+
+input AuthPayloadUpdateInput {
+  token: String
+  user: UserUpdateOneInput
+}
+
+input AuthPayloadWhereInput {
+  """Logical AND on all given filters."""
+  AND: [AuthPayloadWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [AuthPayloadWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [AuthPayloadWhereInput!]
+  token: String
+
+  """All values that are not equal to given value."""
+  token_not: String
+
+  """All values that are contained in given list."""
+  token_in: [String!]
+
+  """All values that are not contained in given list."""
+  token_not_in: [String!]
+
+  """All values less than the given value."""
+  token_lt: String
+
+  """All values less than or equal the given value."""
+  token_lte: String
+
+  """All values greater than the given value."""
+  token_gt: String
+
+  """All values greater than or equal the given value."""
+  token_gte: String
+
+  """All values containing the given string."""
+  token_contains: String
+
+  """All values not containing the given string."""
+  token_not_contains: String
+
+  """All values starting with the given string."""
+  token_starts_with: String
+
+  """All values not starting with the given string."""
+  token_not_starts_with: String
+
+  """All values ending with the given string."""
+  token_ends_with: String
+
+  """All values not ending with the given string."""
+  token_not_ends_with: String
+  user: UserWhereInput
 }
 
 type BatchPayload {
@@ -253,218 +393,33 @@ Long can represent values between -(2^63) and 2^63 - 1.
 """
 scalar Long
 
-type Message implements Node {
-  id: ID!
-  text: String!
-}
-
-"""A connection to a list of items."""
-type MessageConnection {
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """A list of edges."""
-  edges: [MessageEdge]!
-  aggregate: AggregateMessage!
-}
-
-input MessageCreateInput {
-  text: String!
-}
-
-"""An edge in a connection."""
-type MessageEdge {
-  """The item at the end of the edge."""
-  node: Message!
-
-  """A cursor for use in pagination."""
-  cursor: String!
-}
-
-enum MessageOrderByInput {
-  id_ASC
-  id_DESC
-  text_ASC
-  text_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
-}
-
-type MessagePreviousValues {
-  id: ID!
-  text: String!
-}
-
-type MessageSubscriptionPayload {
-  mutation: MutationType!
-  node: Message
-  updatedFields: [String!]
-  previousValues: MessagePreviousValues
-}
-
-input MessageSubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [MessageSubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [MessageSubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [MessageSubscriptionWhereInput!]
-
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
-  mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
-  updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
-  updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
-  updatedFields_contains_some: [String!]
-  node: MessageWhereInput
-}
-
-input MessageUpdateInput {
-  text: String
-}
-
-input MessageWhereInput {
-  """Logical AND on all given filters."""
-  AND: [MessageWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [MessageWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [MessageWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  text: String
-
-  """All values that are not equal to given value."""
-  text_not: String
-
-  """All values that are contained in given list."""
-  text_in: [String!]
-
-  """All values that are not contained in given list."""
-  text_not_in: [String!]
-
-  """All values less than the given value."""
-  text_lt: String
-
-  """All values less than or equal the given value."""
-  text_lte: String
-
-  """All values greater than the given value."""
-  text_gt: String
-
-  """All values greater than or equal the given value."""
-  text_gte: String
-
-  """All values containing the given string."""
-  text_contains: String
-
-  """All values not containing the given string."""
-  text_not_contains: String
-
-  """All values starting with the given string."""
-  text_starts_with: String
-
-  """All values not starting with the given string."""
-  text_not_starts_with: String
-
-  """All values ending with the given string."""
-  text_ends_with: String
-
-  """All values not ending with the given string."""
-  text_not_ends_with: String
-}
-
-input MessageWhereUniqueInput {
-  id: ID
-}
-
 type Mutation {
-  createMessage(data: MessageCreateInput!): Message!
+  createAuthPayload(data: AuthPayloadCreateInput!): AuthPayload!
   createPeerCircle(data: PeerCircleCreateInput!): PeerCircle!
-  createUser(data: UserCreateInput!): User!
   createThread(data: ThreadCreateInput!): Thread!
+  createUser(data: UserCreateInput!): User!
   createComment(data: CommentCreateInput!): Comment!
-  updateMessage(data: MessageUpdateInput!, where: MessageWhereUniqueInput!): Message
   updatePeerCircle(data: PeerCircleUpdateInput!, where: PeerCircleWhereUniqueInput!): PeerCircle
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateThread(data: ThreadUpdateInput!, where: ThreadWhereUniqueInput!): Thread
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateComment(data: CommentUpdateInput!, where: CommentWhereUniqueInput!): Comment
-  deleteMessage(where: MessageWhereUniqueInput!): Message
   deletePeerCircle(where: PeerCircleWhereUniqueInput!): PeerCircle
-  deleteUser(where: UserWhereUniqueInput!): User
   deleteThread(where: ThreadWhereUniqueInput!): Thread
+  deleteUser(where: UserWhereUniqueInput!): User
   deleteComment(where: CommentWhereUniqueInput!): Comment
-  upsertMessage(where: MessageWhereUniqueInput!, create: MessageCreateInput!, update: MessageUpdateInput!): Message!
   upsertPeerCircle(where: PeerCircleWhereUniqueInput!, create: PeerCircleCreateInput!, update: PeerCircleUpdateInput!): PeerCircle!
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertThread(where: ThreadWhereUniqueInput!, create: ThreadCreateInput!, update: ThreadUpdateInput!): Thread!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertComment(where: CommentWhereUniqueInput!, create: CommentCreateInput!, update: CommentUpdateInput!): Comment!
-  updateManyMessages(data: MessageUpdateInput!, where: MessageWhereInput): BatchPayload!
+  updateManyAuthPayloads(data: AuthPayloadUpdateInput!, where: AuthPayloadWhereInput): BatchPayload!
   updateManyPeerCircles(data: PeerCircleUpdateInput!, where: PeerCircleWhereInput): BatchPayload!
-  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManyThreads(data: ThreadUpdateInput!, where: ThreadWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManyComments(data: CommentUpdateInput!, where: CommentWhereInput): BatchPayload!
-  deleteManyMessages(where: MessageWhereInput): BatchPayload!
+  deleteManyAuthPayloads(where: AuthPayloadWhereInput): BatchPayload!
   deleteManyPeerCircles(where: PeerCircleWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyThreads(where: ThreadWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyComments(where: CommentWhereInput): BatchPayload!
 }
 
@@ -743,20 +698,19 @@ input PeerCircleWhereUniqueInput {
 }
 
 type Query {
-  messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message]!
+  authPayloads(where: AuthPayloadWhereInput, orderBy: AuthPayloadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [AuthPayload]!
   peerCircles(where: PeerCircleWhereInput, orderBy: PeerCircleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PeerCircle]!
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   threads(where: ThreadWhereInput, orderBy: ThreadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Thread]!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment]!
-  message(where: MessageWhereUniqueInput!): Message
   peerCircle(where: PeerCircleWhereUniqueInput!): PeerCircle
-  user(where: UserWhereUniqueInput!): User
   thread(where: ThreadWhereUniqueInput!): Thread
+  user(where: UserWhereUniqueInput!): User
   comment(where: CommentWhereUniqueInput!): Comment
-  messagesConnection(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MessageConnection!
+  authPayloadsConnection(where: AuthPayloadWhereInput, orderBy: AuthPayloadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AuthPayloadConnection!
   peerCirclesConnection(where: PeerCircleWhereInput, orderBy: PeerCircleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PeerCircleConnection!
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   threadsConnection(where: ThreadWhereInput, orderBy: ThreadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ThreadConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   commentsConnection(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CommentConnection!
 
   """Fetches an object given its ID"""
@@ -767,10 +721,10 @@ type Query {
 }
 
 type Subscription {
-  message(where: MessageSubscriptionWhereInput): MessageSubscriptionPayload
+  authPayload(where: AuthPayloadSubscriptionWhereInput): AuthPayloadSubscriptionPayload
   peerCircle(where: PeerCircleSubscriptionWhereInput): PeerCircleSubscriptionPayload
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   thread(where: ThreadSubscriptionWhereInput): ThreadSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   comment(where: CommentSubscriptionWhereInput): CommentSubscriptionPayload
 }
 
@@ -1201,7 +1155,7 @@ input ThreadWhereUniqueInput {
 type User implements Node {
   id: ID!
   name: String!
-  username: String!
+  email: String!
   password: String!
   memberOf(where: PeerCircleWhereInput, orderBy: PeerCircleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PeerCircle!]
   createdThreads(where: ThreadWhereInput, orderBy: ThreadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Thread!]
@@ -1220,7 +1174,7 @@ type UserConnection {
 
 input UserCreateInput {
   name: String!
-  username: String!
+  email: String!
   password: String!
   memberOf: PeerCircleCreateManyInput
   createdThreads: ThreadCreateManyInput
@@ -1239,7 +1193,7 @@ input UserCreateOneInput {
 
 input UserCreateWithoutParticipatingThreadsInput {
   name: String!
-  username: String!
+  email: String!
   password: String!
   memberOf: PeerCircleCreateManyInput
   createdThreads: ThreadCreateManyInput
@@ -1259,8 +1213,8 @@ enum UserOrderByInput {
   id_DESC
   name_ASC
   name_DESC
-  username_ASC
-  username_DESC
+  email_ASC
+  email_DESC
   password_ASC
   password_DESC
   updatedAt_ASC
@@ -1272,7 +1226,7 @@ enum UserOrderByInput {
 type UserPreviousValues {
   id: ID!
   name: String!
-  username: String!
+  email: String!
   password: String!
 }
 
@@ -1317,7 +1271,7 @@ input UserSubscriptionWhereInput {
 
 input UserUpdateDataInput {
   name: String
-  username: String
+  email: String
   password: String
   memberOf: PeerCircleUpdateManyInput
   createdThreads: ThreadUpdateManyInput
@@ -1326,7 +1280,7 @@ input UserUpdateDataInput {
 
 input UserUpdateInput {
   name: String
-  username: String
+  email: String
   password: String
   memberOf: PeerCircleUpdateManyInput
   createdThreads: ThreadUpdateManyInput
@@ -1352,7 +1306,7 @@ input UserUpdateOneInput {
 
 input UserUpdateWithoutParticipatingThreadsDataInput {
   name: String
-  username: String
+  email: String
   password: String
   memberOf: PeerCircleUpdateManyInput
   createdThreads: ThreadUpdateManyInput
@@ -1463,46 +1417,46 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
-  username: String
+  email: String
 
   """All values that are not equal to given value."""
-  username_not: String
+  email_not: String
 
   """All values that are contained in given list."""
-  username_in: [String!]
+  email_in: [String!]
 
   """All values that are not contained in given list."""
-  username_not_in: [String!]
+  email_not_in: [String!]
 
   """All values less than the given value."""
-  username_lt: String
+  email_lt: String
 
   """All values less than or equal the given value."""
-  username_lte: String
+  email_lte: String
 
   """All values greater than the given value."""
-  username_gt: String
+  email_gt: String
 
   """All values greater than or equal the given value."""
-  username_gte: String
+  email_gte: String
 
   """All values containing the given string."""
-  username_contains: String
+  email_contains: String
 
   """All values not containing the given string."""
-  username_not_contains: String
+  email_not_contains: String
 
   """All values starting with the given string."""
-  username_starts_with: String
+  email_starts_with: String
 
   """All values not starting with the given string."""
-  username_not_starts_with: String
+  email_not_starts_with: String
 
   """All values ending with the given string."""
-  username_ends_with: String
+  email_ends_with: String
 
   """All values not ending with the given string."""
-  username_not_ends_with: String
+  email_not_ends_with: String
   password: String
 
   """All values that are not equal to given value."""
@@ -1558,6 +1512,9 @@ input UserWhereInput {
   _MagicalBackRelation_UserThread_every: ThreadWhereInput
   _MagicalBackRelation_UserThread_some: ThreadWhereInput
   _MagicalBackRelation_UserThread_none: ThreadWhereInput
+  _MagicalBackRelation_AuthPayloadToUser_every: AuthPayloadWhereInput
+  _MagicalBackRelation_AuthPayloadToUser_some: AuthPayloadWhereInput
+  _MagicalBackRelation_AuthPayloadToUser_none: AuthPayloadWhereInput
 }
 
 input UserWhereUniqueInput {

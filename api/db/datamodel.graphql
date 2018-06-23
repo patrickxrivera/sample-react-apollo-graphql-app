@@ -1,7 +1,7 @@
 type User {
   id: ID! @unique
   name: String!
-  username: String!
+  email: String!
   password: String!
   memberOf: [PeerCircle!]!
   createdThreads: [Thread!]! @relation(name: "UserCreatedThread")
@@ -32,7 +32,7 @@ type Comment {
   text: String!
 }
 
-type Message {
-id: ID! @unique
-text: String!
+type AuthPayload {
+  token: String
+  user: User
 }
