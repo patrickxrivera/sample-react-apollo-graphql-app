@@ -56,8 +56,12 @@ const createPeerCircle = (root, { name, description }, ctx, info) => {
   );
 };
 
+const deletePeerCircle = (root, { id }, ctx, info) =>
+  ctx.db.mutation.deletePeerCircle({ where: { id } }, info);
+
 module.exports = {
   signup,
   login,
-  createPeerCircle
+  createPeerCircle,
+  deletePeerCircle
 };
