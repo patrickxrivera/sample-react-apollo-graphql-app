@@ -1,0 +1,15 @@
+service: career-karma-api
+
+stage: dev
+
+datamodel: datamodel.graphql
+
+secret: mysecret123
+
+#cluster: public-nickelfairy-857/prisma-us1
+endpoint: https://us1.prisma.sh/public-nickelfairy-857/career-karma-api/dev
+
+hooks:
+  post-deploy:
+    - graphql get-schema --project database
+    - graphql prepare

@@ -1,0 +1,38 @@
+type User {
+  id: ID! @unique
+  name: String!
+  username: String!
+  password: String!
+  memberOf: [PeerCircle!]!
+  createdThreads: [Thread!]! @relation(name: "UserCreatedThread")
+  participatingThreads: [Thread!]! @relation(name: "UserParticipatingThread")
+}
+
+type PeerCircle {
+  id: ID! @unique
+  name: String!
+  threads: [Thread!]! @relation(name: "PeerCircleThread")
+}
+
+type Thread {
+  id: ID! @unique
+  createdAt: DateTime!
+  author: User! @relation(name: "UserThread")
+  title: String!
+  body: String!
+  comments: [Comment!]!
+  peerCircle: PeerCircle! @relation(name: "PeerCircleThread")
+  participants: [User!]! @relation(name: "UserParticipatingThread")
+  messageCount: Int!
+}
+
+type Comment {
+  id: ID! @unique
+  author: User!
+  text: String!
+}
+
+type Message {
+id: ID! @unique
+text: String!
+}

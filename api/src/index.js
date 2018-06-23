@@ -1,30 +1,11 @@
 const { GraphQLServer } = require('graphql-yoga');
-
-let idCount = 4;
-
-let peerCircles = [
-  {
-    id: '1',
-    name: 'Job Search',
-    threads: []
-  },
-  {
-    id: '2',
-    name: 'Code Buddies',
-    threads: []
-  },
-  {
-    id: '3',
-    name: 'Buidl',
-    threads: []
-  }
-];
+const { Prisma } = require('prisma-binding');
 
 const resolvers = {
   Query: {
     info: () => 'API is running',
-    getPeerCircles: () => peerCircles,
-    getPeerCircle: (_, { id }) => peerCircles.filter((p) => p.id === id)[0]
+    getPeerCircles: (root, args, ctx, info) => ctx.db.query.peerCircles({}, info),
+    getPeerCircle: (root, { id }, ctx, info) => ctx.db.mutation.peerCircle({ id })
   },
 
   Mutation: {
@@ -75,7 +56,15 @@ const resolvers = {
 
 const server = new GraphQLServer({
   typeDefs: './src/schema.graphql',
-  resolvers
+  resolvers,
+  context: (req) => ({
+    ...req,
+    db: new Prisma({
+      typeDefs: 'src/generated/prisma.graphql',
+      endpoint: 'https://us1.prisma.sh/public-nickelfairy-857/career-karma-api/dev',
+      secret: 'mysecret123'
+    })
+  })
 });
 
 server.start(() => console.log(`GraphQL Server running on http://localhost:4000`));

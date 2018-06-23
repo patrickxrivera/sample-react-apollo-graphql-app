@@ -1,0 +1,1565 @@
+# source: https://us1.prisma.sh/public-nickelfairy-857/career-karma-api/dev
+# timestamp: Fri Jun 22 2018 20:48:05 GMT-0700 (PDT)
+
+type AggregateComment {
+  count: Int!
+}
+
+type AggregateMessage {
+  count: Int!
+}
+
+type AggregatePeerCircle {
+  count: Int!
+}
+
+type AggregateThread {
+  count: Int!
+}
+
+type AggregateUser {
+  count: Int!
+}
+
+type BatchPayload {
+  """The number of nodes that have been affected by the Batch operation."""
+  count: Long!
+}
+
+type Comment implements Node {
+  id: ID!
+  author(where: UserWhereInput): User!
+  text: String!
+}
+
+"""A connection to a list of items."""
+type CommentConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [CommentEdge]!
+  aggregate: AggregateComment!
+}
+
+input CommentCreateInput {
+  text: String!
+  author: UserCreateOneInput!
+}
+
+input CommentCreateManyInput {
+  create: [CommentCreateInput!]
+  connect: [CommentWhereUniqueInput!]
+}
+
+"""An edge in a connection."""
+type CommentEdge {
+  """The item at the end of the edge."""
+  node: Comment!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum CommentOrderByInput {
+  id_ASC
+  id_DESC
+  text_ASC
+  text_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type CommentPreviousValues {
+  id: ID!
+  text: String!
+}
+
+type CommentSubscriptionPayload {
+  mutation: MutationType!
+  node: Comment
+  updatedFields: [String!]
+  previousValues: CommentPreviousValues
+}
+
+input CommentSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [CommentSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [CommentSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [CommentSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: CommentWhereInput
+}
+
+input CommentUpdateDataInput {
+  text: String
+  author: UserUpdateOneInput
+}
+
+input CommentUpdateInput {
+  text: String
+  author: UserUpdateOneInput
+}
+
+input CommentUpdateManyInput {
+  create: [CommentCreateInput!]
+  connect: [CommentWhereUniqueInput!]
+  disconnect: [CommentWhereUniqueInput!]
+  delete: [CommentWhereUniqueInput!]
+  update: [CommentUpdateWithWhereUniqueNestedInput!]
+  upsert: [CommentUpsertWithWhereUniqueNestedInput!]
+}
+
+input CommentUpdateWithWhereUniqueNestedInput {
+  where: CommentWhereUniqueInput!
+  data: CommentUpdateDataInput!
+}
+
+input CommentUpsertWithWhereUniqueNestedInput {
+  where: CommentWhereUniqueInput!
+  update: CommentUpdateDataInput!
+  create: CommentCreateInput!
+}
+
+input CommentWhereInput {
+  """Logical AND on all given filters."""
+  AND: [CommentWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [CommentWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [CommentWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  text: String
+
+  """All values that are not equal to given value."""
+  text_not: String
+
+  """All values that are contained in given list."""
+  text_in: [String!]
+
+  """All values that are not contained in given list."""
+  text_not_in: [String!]
+
+  """All values less than the given value."""
+  text_lt: String
+
+  """All values less than or equal the given value."""
+  text_lte: String
+
+  """All values greater than the given value."""
+  text_gt: String
+
+  """All values greater than or equal the given value."""
+  text_gte: String
+
+  """All values containing the given string."""
+  text_contains: String
+
+  """All values not containing the given string."""
+  text_not_contains: String
+
+  """All values starting with the given string."""
+  text_starts_with: String
+
+  """All values not starting with the given string."""
+  text_not_starts_with: String
+
+  """All values ending with the given string."""
+  text_ends_with: String
+
+  """All values not ending with the given string."""
+  text_not_ends_with: String
+  author: UserWhereInput
+  _MagicalBackRelation_CommentToThread_every: ThreadWhereInput
+  _MagicalBackRelation_CommentToThread_some: ThreadWhereInput
+  _MagicalBackRelation_CommentToThread_none: ThreadWhereInput
+}
+
+input CommentWhereUniqueInput {
+  id: ID
+}
+
+scalar DateTime
+
+"""
+The `Long` scalar type represents non-fractional signed whole numeric values.
+Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long
+
+type Message implements Node {
+  id: ID!
+  text: String!
+}
+
+"""A connection to a list of items."""
+type MessageConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [MessageEdge]!
+  aggregate: AggregateMessage!
+}
+
+input MessageCreateInput {
+  text: String!
+}
+
+"""An edge in a connection."""
+type MessageEdge {
+  """The item at the end of the edge."""
+  node: Message!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum MessageOrderByInput {
+  id_ASC
+  id_DESC
+  text_ASC
+  text_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type MessagePreviousValues {
+  id: ID!
+  text: String!
+}
+
+type MessageSubscriptionPayload {
+  mutation: MutationType!
+  node: Message
+  updatedFields: [String!]
+  previousValues: MessagePreviousValues
+}
+
+input MessageSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MessageSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MessageSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MessageSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: MessageWhereInput
+}
+
+input MessageUpdateInput {
+  text: String
+}
+
+input MessageWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MessageWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MessageWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MessageWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  text: String
+
+  """All values that are not equal to given value."""
+  text_not: String
+
+  """All values that are contained in given list."""
+  text_in: [String!]
+
+  """All values that are not contained in given list."""
+  text_not_in: [String!]
+
+  """All values less than the given value."""
+  text_lt: String
+
+  """All values less than or equal the given value."""
+  text_lte: String
+
+  """All values greater than the given value."""
+  text_gt: String
+
+  """All values greater than or equal the given value."""
+  text_gte: String
+
+  """All values containing the given string."""
+  text_contains: String
+
+  """All values not containing the given string."""
+  text_not_contains: String
+
+  """All values starting with the given string."""
+  text_starts_with: String
+
+  """All values not starting with the given string."""
+  text_not_starts_with: String
+
+  """All values ending with the given string."""
+  text_ends_with: String
+
+  """All values not ending with the given string."""
+  text_not_ends_with: String
+}
+
+input MessageWhereUniqueInput {
+  id: ID
+}
+
+type Mutation {
+  createMessage(data: MessageCreateInput!): Message!
+  createPeerCircle(data: PeerCircleCreateInput!): PeerCircle!
+  createUser(data: UserCreateInput!): User!
+  createThread(data: ThreadCreateInput!): Thread!
+  createComment(data: CommentCreateInput!): Comment!
+  updateMessage(data: MessageUpdateInput!, where: MessageWhereUniqueInput!): Message
+  updatePeerCircle(data: PeerCircleUpdateInput!, where: PeerCircleWhereUniqueInput!): PeerCircle
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateThread(data: ThreadUpdateInput!, where: ThreadWhereUniqueInput!): Thread
+  updateComment(data: CommentUpdateInput!, where: CommentWhereUniqueInput!): Comment
+  deleteMessage(where: MessageWhereUniqueInput!): Message
+  deletePeerCircle(where: PeerCircleWhereUniqueInput!): PeerCircle
+  deleteUser(where: UserWhereUniqueInput!): User
+  deleteThread(where: ThreadWhereUniqueInput!): Thread
+  deleteComment(where: CommentWhereUniqueInput!): Comment
+  upsertMessage(where: MessageWhereUniqueInput!, create: MessageCreateInput!, update: MessageUpdateInput!): Message!
+  upsertPeerCircle(where: PeerCircleWhereUniqueInput!, create: PeerCircleCreateInput!, update: PeerCircleUpdateInput!): PeerCircle!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertThread(where: ThreadWhereUniqueInput!, create: ThreadCreateInput!, update: ThreadUpdateInput!): Thread!
+  upsertComment(where: CommentWhereUniqueInput!, create: CommentCreateInput!, update: CommentUpdateInput!): Comment!
+  updateManyMessages(data: MessageUpdateInput!, where: MessageWhereInput): BatchPayload!
+  updateManyPeerCircles(data: PeerCircleUpdateInput!, where: PeerCircleWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  updateManyThreads(data: ThreadUpdateInput!, where: ThreadWhereInput): BatchPayload!
+  updateManyComments(data: CommentUpdateInput!, where: CommentWhereInput): BatchPayload!
+  deleteManyMessages(where: MessageWhereInput): BatchPayload!
+  deleteManyPeerCircles(where: PeerCircleWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyThreads(where: ThreadWhereInput): BatchPayload!
+  deleteManyComments(where: CommentWhereInput): BatchPayload!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+type PeerCircle implements Node {
+  id: ID!
+  name: String!
+  threads(where: ThreadWhereInput, orderBy: ThreadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Thread!]
+}
+
+"""A connection to a list of items."""
+type PeerCircleConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [PeerCircleEdge]!
+  aggregate: AggregatePeerCircle!
+}
+
+input PeerCircleCreateInput {
+  name: String!
+  threads: ThreadCreateManyWithoutPeerCircleInput
+}
+
+input PeerCircleCreateManyInput {
+  create: [PeerCircleCreateInput!]
+  connect: [PeerCircleWhereUniqueInput!]
+}
+
+input PeerCircleCreateOneWithoutThreadsInput {
+  create: PeerCircleCreateWithoutThreadsInput
+  connect: PeerCircleWhereUniqueInput
+}
+
+input PeerCircleCreateWithoutThreadsInput {
+  name: String!
+}
+
+"""An edge in a connection."""
+type PeerCircleEdge {
+  """The item at the end of the edge."""
+  node: PeerCircle!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum PeerCircleOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type PeerCirclePreviousValues {
+  id: ID!
+  name: String!
+}
+
+type PeerCircleSubscriptionPayload {
+  mutation: MutationType!
+  node: PeerCircle
+  updatedFields: [String!]
+  previousValues: PeerCirclePreviousValues
+}
+
+input PeerCircleSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PeerCircleSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PeerCircleSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PeerCircleSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: PeerCircleWhereInput
+}
+
+input PeerCircleUpdateDataInput {
+  name: String
+  threads: ThreadUpdateManyWithoutPeerCircleInput
+}
+
+input PeerCircleUpdateInput {
+  name: String
+  threads: ThreadUpdateManyWithoutPeerCircleInput
+}
+
+input PeerCircleUpdateManyInput {
+  create: [PeerCircleCreateInput!]
+  connect: [PeerCircleWhereUniqueInput!]
+  disconnect: [PeerCircleWhereUniqueInput!]
+  delete: [PeerCircleWhereUniqueInput!]
+  update: [PeerCircleUpdateWithWhereUniqueNestedInput!]
+  upsert: [PeerCircleUpsertWithWhereUniqueNestedInput!]
+}
+
+input PeerCircleUpdateOneWithoutThreadsInput {
+  create: PeerCircleCreateWithoutThreadsInput
+  connect: PeerCircleWhereUniqueInput
+  delete: Boolean
+  update: PeerCircleUpdateWithoutThreadsDataInput
+  upsert: PeerCircleUpsertWithoutThreadsInput
+}
+
+input PeerCircleUpdateWithoutThreadsDataInput {
+  name: String
+}
+
+input PeerCircleUpdateWithWhereUniqueNestedInput {
+  where: PeerCircleWhereUniqueInput!
+  data: PeerCircleUpdateDataInput!
+}
+
+input PeerCircleUpsertWithoutThreadsInput {
+  update: PeerCircleUpdateWithoutThreadsDataInput!
+  create: PeerCircleCreateWithoutThreadsInput!
+}
+
+input PeerCircleUpsertWithWhereUniqueNestedInput {
+  where: PeerCircleWhereUniqueInput!
+  update: PeerCircleUpdateDataInput!
+  create: PeerCircleCreateInput!
+}
+
+input PeerCircleWhereInput {
+  """Logical AND on all given filters."""
+  AND: [PeerCircleWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [PeerCircleWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [PeerCircleWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  threads_every: ThreadWhereInput
+  threads_some: ThreadWhereInput
+  threads_none: ThreadWhereInput
+  _MagicalBackRelation_PeerCircleToUser_every: UserWhereInput
+  _MagicalBackRelation_PeerCircleToUser_some: UserWhereInput
+  _MagicalBackRelation_PeerCircleToUser_none: UserWhereInput
+}
+
+input PeerCircleWhereUniqueInput {
+  id: ID
+}
+
+type Query {
+  messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message]!
+  peerCircles(where: PeerCircleWhereInput, orderBy: PeerCircleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PeerCircle]!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  threads(where: ThreadWhereInput, orderBy: ThreadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Thread]!
+  comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment]!
+  message(where: MessageWhereUniqueInput!): Message
+  peerCircle(where: PeerCircleWhereUniqueInput!): PeerCircle
+  user(where: UserWhereUniqueInput!): User
+  thread(where: ThreadWhereUniqueInput!): Thread
+  comment(where: CommentWhereUniqueInput!): Comment
+  messagesConnection(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MessageConnection!
+  peerCirclesConnection(where: PeerCircleWhereInput, orderBy: PeerCircleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PeerCircleConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  threadsConnection(where: ThreadWhereInput, orderBy: ThreadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ThreadConnection!
+  commentsConnection(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CommentConnection!
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+}
+
+type Subscription {
+  message(where: MessageSubscriptionWhereInput): MessageSubscriptionPayload
+  peerCircle(where: PeerCircleSubscriptionWhereInput): PeerCircleSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  thread(where: ThreadSubscriptionWhereInput): ThreadSubscriptionPayload
+  comment(where: CommentSubscriptionWhereInput): CommentSubscriptionPayload
+}
+
+type Thread implements Node {
+  id: ID!
+  createdAt: DateTime!
+  author(where: UserWhereInput): User!
+  title: String!
+  body: String!
+  comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
+  peerCircle(where: PeerCircleWhereInput): PeerCircle!
+  participants(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  messageCount: Int!
+}
+
+"""A connection to a list of items."""
+type ThreadConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ThreadEdge]!
+  aggregate: AggregateThread!
+}
+
+input ThreadCreateInput {
+  title: String!
+  body: String!
+  messageCount: Int!
+  author: UserCreateOneInput!
+  comments: CommentCreateManyInput
+  peerCircle: PeerCircleCreateOneWithoutThreadsInput!
+  participants: UserCreateManyWithoutParticipatingThreadsInput
+}
+
+input ThreadCreateManyInput {
+  create: [ThreadCreateInput!]
+  connect: [ThreadWhereUniqueInput!]
+}
+
+input ThreadCreateManyWithoutParticipantsInput {
+  create: [ThreadCreateWithoutParticipantsInput!]
+  connect: [ThreadWhereUniqueInput!]
+}
+
+input ThreadCreateManyWithoutPeerCircleInput {
+  create: [ThreadCreateWithoutPeerCircleInput!]
+  connect: [ThreadWhereUniqueInput!]
+}
+
+input ThreadCreateWithoutParticipantsInput {
+  title: String!
+  body: String!
+  messageCount: Int!
+  author: UserCreateOneInput!
+  comments: CommentCreateManyInput
+  peerCircle: PeerCircleCreateOneWithoutThreadsInput!
+}
+
+input ThreadCreateWithoutPeerCircleInput {
+  title: String!
+  body: String!
+  messageCount: Int!
+  author: UserCreateOneInput!
+  comments: CommentCreateManyInput
+  participants: UserCreateManyWithoutParticipatingThreadsInput
+}
+
+"""An edge in a connection."""
+type ThreadEdge {
+  """The item at the end of the edge."""
+  node: Thread!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum ThreadOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  title_ASC
+  title_DESC
+  body_ASC
+  body_DESC
+  messageCount_ASC
+  messageCount_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type ThreadPreviousValues {
+  id: ID!
+  createdAt: DateTime!
+  title: String!
+  body: String!
+  messageCount: Int!
+}
+
+type ThreadSubscriptionPayload {
+  mutation: MutationType!
+  node: Thread
+  updatedFields: [String!]
+  previousValues: ThreadPreviousValues
+}
+
+input ThreadSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ThreadSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ThreadSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ThreadSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ThreadWhereInput
+}
+
+input ThreadUpdateDataInput {
+  title: String
+  body: String
+  messageCount: Int
+  author: UserUpdateOneInput
+  comments: CommentUpdateManyInput
+  peerCircle: PeerCircleUpdateOneWithoutThreadsInput
+  participants: UserUpdateManyWithoutParticipatingThreadsInput
+}
+
+input ThreadUpdateInput {
+  title: String
+  body: String
+  messageCount: Int
+  author: UserUpdateOneInput
+  comments: CommentUpdateManyInput
+  peerCircle: PeerCircleUpdateOneWithoutThreadsInput
+  participants: UserUpdateManyWithoutParticipatingThreadsInput
+}
+
+input ThreadUpdateManyInput {
+  create: [ThreadCreateInput!]
+  connect: [ThreadWhereUniqueInput!]
+  disconnect: [ThreadWhereUniqueInput!]
+  delete: [ThreadWhereUniqueInput!]
+  update: [ThreadUpdateWithWhereUniqueNestedInput!]
+  upsert: [ThreadUpsertWithWhereUniqueNestedInput!]
+}
+
+input ThreadUpdateManyWithoutParticipantsInput {
+  create: [ThreadCreateWithoutParticipantsInput!]
+  connect: [ThreadWhereUniqueInput!]
+  disconnect: [ThreadWhereUniqueInput!]
+  delete: [ThreadWhereUniqueInput!]
+  update: [ThreadUpdateWithWhereUniqueWithoutParticipantsInput!]
+  upsert: [ThreadUpsertWithWhereUniqueWithoutParticipantsInput!]
+}
+
+input ThreadUpdateManyWithoutPeerCircleInput {
+  create: [ThreadCreateWithoutPeerCircleInput!]
+  connect: [ThreadWhereUniqueInput!]
+  disconnect: [ThreadWhereUniqueInput!]
+  delete: [ThreadWhereUniqueInput!]
+  update: [ThreadUpdateWithWhereUniqueWithoutPeerCircleInput!]
+  upsert: [ThreadUpsertWithWhereUniqueWithoutPeerCircleInput!]
+}
+
+input ThreadUpdateWithoutParticipantsDataInput {
+  title: String
+  body: String
+  messageCount: Int
+  author: UserUpdateOneInput
+  comments: CommentUpdateManyInput
+  peerCircle: PeerCircleUpdateOneWithoutThreadsInput
+}
+
+input ThreadUpdateWithoutPeerCircleDataInput {
+  title: String
+  body: String
+  messageCount: Int
+  author: UserUpdateOneInput
+  comments: CommentUpdateManyInput
+  participants: UserUpdateManyWithoutParticipatingThreadsInput
+}
+
+input ThreadUpdateWithWhereUniqueNestedInput {
+  where: ThreadWhereUniqueInput!
+  data: ThreadUpdateDataInput!
+}
+
+input ThreadUpdateWithWhereUniqueWithoutParticipantsInput {
+  where: ThreadWhereUniqueInput!
+  data: ThreadUpdateWithoutParticipantsDataInput!
+}
+
+input ThreadUpdateWithWhereUniqueWithoutPeerCircleInput {
+  where: ThreadWhereUniqueInput!
+  data: ThreadUpdateWithoutPeerCircleDataInput!
+}
+
+input ThreadUpsertWithWhereUniqueNestedInput {
+  where: ThreadWhereUniqueInput!
+  update: ThreadUpdateDataInput!
+  create: ThreadCreateInput!
+}
+
+input ThreadUpsertWithWhereUniqueWithoutParticipantsInput {
+  where: ThreadWhereUniqueInput!
+  update: ThreadUpdateWithoutParticipantsDataInput!
+  create: ThreadCreateWithoutParticipantsInput!
+}
+
+input ThreadUpsertWithWhereUniqueWithoutPeerCircleInput {
+  where: ThreadWhereUniqueInput!
+  update: ThreadUpdateWithoutPeerCircleDataInput!
+  create: ThreadCreateWithoutPeerCircleInput!
+}
+
+input ThreadWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ThreadWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ThreadWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ThreadWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  title: String
+
+  """All values that are not equal to given value."""
+  title_not: String
+
+  """All values that are contained in given list."""
+  title_in: [String!]
+
+  """All values that are not contained in given list."""
+  title_not_in: [String!]
+
+  """All values less than the given value."""
+  title_lt: String
+
+  """All values less than or equal the given value."""
+  title_lte: String
+
+  """All values greater than the given value."""
+  title_gt: String
+
+  """All values greater than or equal the given value."""
+  title_gte: String
+
+  """All values containing the given string."""
+  title_contains: String
+
+  """All values not containing the given string."""
+  title_not_contains: String
+
+  """All values starting with the given string."""
+  title_starts_with: String
+
+  """All values not starting with the given string."""
+  title_not_starts_with: String
+
+  """All values ending with the given string."""
+  title_ends_with: String
+
+  """All values not ending with the given string."""
+  title_not_ends_with: String
+  body: String
+
+  """All values that are not equal to given value."""
+  body_not: String
+
+  """All values that are contained in given list."""
+  body_in: [String!]
+
+  """All values that are not contained in given list."""
+  body_not_in: [String!]
+
+  """All values less than the given value."""
+  body_lt: String
+
+  """All values less than or equal the given value."""
+  body_lte: String
+
+  """All values greater than the given value."""
+  body_gt: String
+
+  """All values greater than or equal the given value."""
+  body_gte: String
+
+  """All values containing the given string."""
+  body_contains: String
+
+  """All values not containing the given string."""
+  body_not_contains: String
+
+  """All values starting with the given string."""
+  body_starts_with: String
+
+  """All values not starting with the given string."""
+  body_not_starts_with: String
+
+  """All values ending with the given string."""
+  body_ends_with: String
+
+  """All values not ending with the given string."""
+  body_not_ends_with: String
+  messageCount: Int
+
+  """All values that are not equal to given value."""
+  messageCount_not: Int
+
+  """All values that are contained in given list."""
+  messageCount_in: [Int!]
+
+  """All values that are not contained in given list."""
+  messageCount_not_in: [Int!]
+
+  """All values less than the given value."""
+  messageCount_lt: Int
+
+  """All values less than or equal the given value."""
+  messageCount_lte: Int
+
+  """All values greater than the given value."""
+  messageCount_gt: Int
+
+  """All values greater than or equal the given value."""
+  messageCount_gte: Int
+  author: UserWhereInput
+  comments_every: CommentWhereInput
+  comments_some: CommentWhereInput
+  comments_none: CommentWhereInput
+  peerCircle: PeerCircleWhereInput
+  participants_every: UserWhereInput
+  participants_some: UserWhereInput
+  participants_none: UserWhereInput
+  _MagicalBackRelation_UserCreatedThread_every: UserWhereInput
+  _MagicalBackRelation_UserCreatedThread_some: UserWhereInput
+  _MagicalBackRelation_UserCreatedThread_none: UserWhereInput
+}
+
+input ThreadWhereUniqueInput {
+  id: ID
+}
+
+type User implements Node {
+  id: ID!
+  name: String!
+  username: String!
+  password: String!
+  memberOf(where: PeerCircleWhereInput, orderBy: PeerCircleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PeerCircle!]
+  createdThreads(where: ThreadWhereInput, orderBy: ThreadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Thread!]
+  participatingThreads(where: ThreadWhereInput, orderBy: ThreadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Thread!]
+}
+
+"""A connection to a list of items."""
+type UserConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [UserEdge]!
+  aggregate: AggregateUser!
+}
+
+input UserCreateInput {
+  name: String!
+  username: String!
+  password: String!
+  memberOf: PeerCircleCreateManyInput
+  createdThreads: ThreadCreateManyInput
+  participatingThreads: ThreadCreateManyWithoutParticipantsInput
+}
+
+input UserCreateManyWithoutParticipatingThreadsInput {
+  create: [UserCreateWithoutParticipatingThreadsInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutParticipatingThreadsInput {
+  name: String!
+  username: String!
+  password: String!
+  memberOf: PeerCircleCreateManyInput
+  createdThreads: ThreadCreateManyInput
+}
+
+"""An edge in a connection."""
+type UserEdge {
+  """The item at the end of the edge."""
+  node: User!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum UserOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  username_ASC
+  username_DESC
+  password_ASC
+  password_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type UserPreviousValues {
+  id: ID!
+  name: String!
+  username: String!
+  password: String!
+}
+
+type UserSubscriptionPayload {
+  mutation: MutationType!
+  node: User
+  updatedFields: [String!]
+  previousValues: UserPreviousValues
+}
+
+input UserSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [UserSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UserSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: UserWhereInput
+}
+
+input UserUpdateDataInput {
+  name: String
+  username: String
+  password: String
+  memberOf: PeerCircleUpdateManyInput
+  createdThreads: ThreadUpdateManyInput
+  participatingThreads: ThreadUpdateManyWithoutParticipantsInput
+}
+
+input UserUpdateInput {
+  name: String
+  username: String
+  password: String
+  memberOf: PeerCircleUpdateManyInput
+  createdThreads: ThreadUpdateManyInput
+  participatingThreads: ThreadUpdateManyWithoutParticipantsInput
+}
+
+input UserUpdateManyWithoutParticipatingThreadsInput {
+  create: [UserCreateWithoutParticipatingThreadsInput!]
+  connect: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  delete: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutParticipatingThreadsInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutParticipatingThreadsInput!]
+}
+
+input UserUpdateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  delete: Boolean
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+}
+
+input UserUpdateWithoutParticipatingThreadsDataInput {
+  name: String
+  username: String
+  password: String
+  memberOf: PeerCircleUpdateManyInput
+  createdThreads: ThreadUpdateManyInput
+}
+
+input UserUpdateWithWhereUniqueWithoutParticipatingThreadsInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutParticipatingThreadsDataInput!
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutParticipatingThreadsInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutParticipatingThreadsDataInput!
+  create: UserCreateWithoutParticipatingThreadsInput!
+}
+
+input UserWhereInput {
+  """Logical AND on all given filters."""
+  AND: [UserWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [UserWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [UserWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  username: String
+
+  """All values that are not equal to given value."""
+  username_not: String
+
+  """All values that are contained in given list."""
+  username_in: [String!]
+
+  """All values that are not contained in given list."""
+  username_not_in: [String!]
+
+  """All values less than the given value."""
+  username_lt: String
+
+  """All values less than or equal the given value."""
+  username_lte: String
+
+  """All values greater than the given value."""
+  username_gt: String
+
+  """All values greater than or equal the given value."""
+  username_gte: String
+
+  """All values containing the given string."""
+  username_contains: String
+
+  """All values not containing the given string."""
+  username_not_contains: String
+
+  """All values starting with the given string."""
+  username_starts_with: String
+
+  """All values not starting with the given string."""
+  username_not_starts_with: String
+
+  """All values ending with the given string."""
+  username_ends_with: String
+
+  """All values not ending with the given string."""
+  username_not_ends_with: String
+  password: String
+
+  """All values that are not equal to given value."""
+  password_not: String
+
+  """All values that are contained in given list."""
+  password_in: [String!]
+
+  """All values that are not contained in given list."""
+  password_not_in: [String!]
+
+  """All values less than the given value."""
+  password_lt: String
+
+  """All values less than or equal the given value."""
+  password_lte: String
+
+  """All values greater than the given value."""
+  password_gt: String
+
+  """All values greater than or equal the given value."""
+  password_gte: String
+
+  """All values containing the given string."""
+  password_contains: String
+
+  """All values not containing the given string."""
+  password_not_contains: String
+
+  """All values starting with the given string."""
+  password_starts_with: String
+
+  """All values not starting with the given string."""
+  password_not_starts_with: String
+
+  """All values ending with the given string."""
+  password_ends_with: String
+
+  """All values not ending with the given string."""
+  password_not_ends_with: String
+  memberOf_every: PeerCircleWhereInput
+  memberOf_some: PeerCircleWhereInput
+  memberOf_none: PeerCircleWhereInput
+  createdThreads_every: ThreadWhereInput
+  createdThreads_some: ThreadWhereInput
+  createdThreads_none: ThreadWhereInput
+  participatingThreads_every: ThreadWhereInput
+  participatingThreads_some: ThreadWhereInput
+  participatingThreads_none: ThreadWhereInput
+  _MagicalBackRelation_CommentToUser_every: CommentWhereInput
+  _MagicalBackRelation_CommentToUser_some: CommentWhereInput
+  _MagicalBackRelation_CommentToUser_none: CommentWhereInput
+  _MagicalBackRelation_UserThread_every: ThreadWhereInput
+  _MagicalBackRelation_UserThread_some: ThreadWhereInput
+  _MagicalBackRelation_UserThread_none: ThreadWhereInput
+}
+
+input UserWhereUniqueInput {
+  id: ID
+}
