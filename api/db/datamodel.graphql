@@ -1,7 +1,7 @@
 type User {
   id: ID! @unique
   name: String!
-  email: String!
+  email: String! @unique
   password: String!
   memberOf: [PeerCircle!]!
   createdThreads: [Thread!]! @relation(name: "UserCreatedThread")
@@ -11,6 +11,8 @@ type User {
 type PeerCircle {
   id: ID! @unique
   name: String!
+  description: String!
+  admin: User!
   threads: [Thread!]! @relation(name: "PeerCircleThread")
 }
 

@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/public-nickelfairy-857/career-karma-api/dev
-# timestamp: Sat Jun 23 2018 11:37:26 GMT-0700 (PDT)
+# timestamp: Sat Jun 23 2018 12:59:08 GMT-0700 (PDT)
 
 type AggregateAuthPayload {
   count: Int!
@@ -394,8 +394,8 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createAuthPayload(data: AuthPayloadCreateInput!): AuthPayload!
   createPeerCircle(data: PeerCircleCreateInput!): PeerCircle!
+  createAuthPayload(data: AuthPayloadCreateInput!): AuthPayload!
   createThread(data: ThreadCreateInput!): Thread!
   createUser(data: UserCreateInput!): User!
   createComment(data: CommentCreateInput!): Comment!
@@ -411,13 +411,13 @@ type Mutation {
   upsertThread(where: ThreadWhereUniqueInput!, create: ThreadCreateInput!, update: ThreadUpdateInput!): Thread!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertComment(where: CommentWhereUniqueInput!, create: CommentCreateInput!, update: CommentUpdateInput!): Comment!
-  updateManyAuthPayloads(data: AuthPayloadUpdateInput!, where: AuthPayloadWhereInput): BatchPayload!
   updateManyPeerCircles(data: PeerCircleUpdateInput!, where: PeerCircleWhereInput): BatchPayload!
+  updateManyAuthPayloads(data: AuthPayloadUpdateInput!, where: AuthPayloadWhereInput): BatchPayload!
   updateManyThreads(data: ThreadUpdateInput!, where: ThreadWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManyComments(data: CommentUpdateInput!, where: CommentWhereInput): BatchPayload!
-  deleteManyAuthPayloads(where: AuthPayloadWhereInput): BatchPayload!
   deleteManyPeerCircles(where: PeerCircleWhereInput): BatchPayload!
+  deleteManyAuthPayloads(where: AuthPayloadWhereInput): BatchPayload!
   deleteManyThreads(where: ThreadWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyComments(where: CommentWhereInput): BatchPayload!
@@ -453,6 +453,8 @@ type PageInfo {
 type PeerCircle implements Node {
   id: ID!
   name: String!
+  description: String!
+  admin(where: UserWhereInput): User!
   threads(where: ThreadWhereInput, orderBy: ThreadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Thread!]
 }
 
@@ -468,11 +470,13 @@ type PeerCircleConnection {
 
 input PeerCircleCreateInput {
   name: String!
+  description: String!
+  admin: UserCreateOneWithoutMemberOfInput!
   threads: ThreadCreateManyWithoutPeerCircleInput
 }
 
-input PeerCircleCreateManyInput {
-  create: [PeerCircleCreateInput!]
+input PeerCircleCreateManyWithoutAdminInput {
+  create: [PeerCircleCreateWithoutAdminInput!]
   connect: [PeerCircleWhereUniqueInput!]
 }
 
@@ -481,8 +485,16 @@ input PeerCircleCreateOneWithoutThreadsInput {
   connect: PeerCircleWhereUniqueInput
 }
 
+input PeerCircleCreateWithoutAdminInput {
+  name: String!
+  description: String!
+  threads: ThreadCreateManyWithoutPeerCircleInput
+}
+
 input PeerCircleCreateWithoutThreadsInput {
   name: String!
+  description: String!
+  admin: UserCreateOneWithoutMemberOfInput!
 }
 
 """An edge in a connection."""
@@ -499,6 +511,8 @@ enum PeerCircleOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  description_ASC
+  description_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -508,6 +522,7 @@ enum PeerCircleOrderByInput {
 type PeerCirclePreviousValues {
   id: ID!
   name: String!
+  description: String!
 }
 
 type PeerCircleSubscriptionPayload {
@@ -549,23 +564,20 @@ input PeerCircleSubscriptionWhereInput {
   node: PeerCircleWhereInput
 }
 
-input PeerCircleUpdateDataInput {
-  name: String
-  threads: ThreadUpdateManyWithoutPeerCircleInput
-}
-
 input PeerCircleUpdateInput {
   name: String
+  description: String
+  admin: UserUpdateOneWithoutMemberOfInput
   threads: ThreadUpdateManyWithoutPeerCircleInput
 }
 
-input PeerCircleUpdateManyInput {
-  create: [PeerCircleCreateInput!]
+input PeerCircleUpdateManyWithoutAdminInput {
+  create: [PeerCircleCreateWithoutAdminInput!]
   connect: [PeerCircleWhereUniqueInput!]
   disconnect: [PeerCircleWhereUniqueInput!]
   delete: [PeerCircleWhereUniqueInput!]
-  update: [PeerCircleUpdateWithWhereUniqueNestedInput!]
-  upsert: [PeerCircleUpsertWithWhereUniqueNestedInput!]
+  update: [PeerCircleUpdateWithWhereUniqueWithoutAdminInput!]
+  upsert: [PeerCircleUpsertWithWhereUniqueWithoutAdminInput!]
 }
 
 input PeerCircleUpdateOneWithoutThreadsInput {
@@ -576,13 +588,21 @@ input PeerCircleUpdateOneWithoutThreadsInput {
   upsert: PeerCircleUpsertWithoutThreadsInput
 }
 
-input PeerCircleUpdateWithoutThreadsDataInput {
+input PeerCircleUpdateWithoutAdminDataInput {
   name: String
+  description: String
+  threads: ThreadUpdateManyWithoutPeerCircleInput
 }
 
-input PeerCircleUpdateWithWhereUniqueNestedInput {
+input PeerCircleUpdateWithoutThreadsDataInput {
+  name: String
+  description: String
+  admin: UserUpdateOneWithoutMemberOfInput
+}
+
+input PeerCircleUpdateWithWhereUniqueWithoutAdminInput {
   where: PeerCircleWhereUniqueInput!
-  data: PeerCircleUpdateDataInput!
+  data: PeerCircleUpdateWithoutAdminDataInput!
 }
 
 input PeerCircleUpsertWithoutThreadsInput {
@@ -590,10 +610,10 @@ input PeerCircleUpsertWithoutThreadsInput {
   create: PeerCircleCreateWithoutThreadsInput!
 }
 
-input PeerCircleUpsertWithWhereUniqueNestedInput {
+input PeerCircleUpsertWithWhereUniqueWithoutAdminInput {
   where: PeerCircleWhereUniqueInput!
-  update: PeerCircleUpdateDataInput!
-  create: PeerCircleCreateInput!
+  update: PeerCircleUpdateWithoutAdminDataInput!
+  create: PeerCircleCreateWithoutAdminInput!
 }
 
 input PeerCircleWhereInput {
@@ -685,12 +705,50 @@ input PeerCircleWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
+  description: String
+
+  """All values that are not equal to given value."""
+  description_not: String
+
+  """All values that are contained in given list."""
+  description_in: [String!]
+
+  """All values that are not contained in given list."""
+  description_not_in: [String!]
+
+  """All values less than the given value."""
+  description_lt: String
+
+  """All values less than or equal the given value."""
+  description_lte: String
+
+  """All values greater than the given value."""
+  description_gt: String
+
+  """All values greater than or equal the given value."""
+  description_gte: String
+
+  """All values containing the given string."""
+  description_contains: String
+
+  """All values not containing the given string."""
+  description_not_contains: String
+
+  """All values starting with the given string."""
+  description_starts_with: String
+
+  """All values not starting with the given string."""
+  description_not_starts_with: String
+
+  """All values ending with the given string."""
+  description_ends_with: String
+
+  """All values not ending with the given string."""
+  description_not_ends_with: String
+  admin: UserWhereInput
   threads_every: ThreadWhereInput
   threads_some: ThreadWhereInput
   threads_none: ThreadWhereInput
-  _MagicalBackRelation_PeerCircleToUser_every: UserWhereInput
-  _MagicalBackRelation_PeerCircleToUser_some: UserWhereInput
-  _MagicalBackRelation_PeerCircleToUser_none: UserWhereInput
 }
 
 input PeerCircleWhereUniqueInput {
@@ -698,8 +756,8 @@ input PeerCircleWhereUniqueInput {
 }
 
 type Query {
-  authPayloads(where: AuthPayloadWhereInput, orderBy: AuthPayloadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [AuthPayload]!
   peerCircles(where: PeerCircleWhereInput, orderBy: PeerCircleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PeerCircle]!
+  authPayloads(where: AuthPayloadWhereInput, orderBy: AuthPayloadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [AuthPayload]!
   threads(where: ThreadWhereInput, orderBy: ThreadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Thread]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment]!
@@ -707,8 +765,8 @@ type Query {
   thread(where: ThreadWhereUniqueInput!): Thread
   user(where: UserWhereUniqueInput!): User
   comment(where: CommentWhereUniqueInput!): Comment
-  authPayloadsConnection(where: AuthPayloadWhereInput, orderBy: AuthPayloadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AuthPayloadConnection!
   peerCirclesConnection(where: PeerCircleWhereInput, orderBy: PeerCircleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PeerCircleConnection!
+  authPayloadsConnection(where: AuthPayloadWhereInput, orderBy: AuthPayloadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AuthPayloadConnection!
   threadsConnection(where: ThreadWhereInput, orderBy: ThreadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ThreadConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   commentsConnection(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CommentConnection!
@@ -721,8 +779,8 @@ type Query {
 }
 
 type Subscription {
-  authPayload(where: AuthPayloadSubscriptionWhereInput): AuthPayloadSubscriptionPayload
   peerCircle(where: PeerCircleSubscriptionWhereInput): PeerCircleSubscriptionPayload
+  authPayload(where: AuthPayloadSubscriptionWhereInput): AuthPayloadSubscriptionPayload
   thread(where: ThreadSubscriptionWhereInput): ThreadSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   comment(where: CommentSubscriptionWhereInput): CommentSubscriptionPayload
@@ -1176,7 +1234,7 @@ input UserCreateInput {
   name: String!
   email: String!
   password: String!
-  memberOf: PeerCircleCreateManyInput
+  memberOf: PeerCircleCreateManyWithoutAdminInput
   createdThreads: ThreadCreateManyInput
   participatingThreads: ThreadCreateManyWithoutParticipantsInput
 }
@@ -1191,11 +1249,24 @@ input UserCreateOneInput {
   connect: UserWhereUniqueInput
 }
 
+input UserCreateOneWithoutMemberOfInput {
+  create: UserCreateWithoutMemberOfInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutMemberOfInput {
+  name: String!
+  email: String!
+  password: String!
+  createdThreads: ThreadCreateManyInput
+  participatingThreads: ThreadCreateManyWithoutParticipantsInput
+}
+
 input UserCreateWithoutParticipatingThreadsInput {
   name: String!
   email: String!
   password: String!
-  memberOf: PeerCircleCreateManyInput
+  memberOf: PeerCircleCreateManyWithoutAdminInput
   createdThreads: ThreadCreateManyInput
 }
 
@@ -1273,7 +1344,7 @@ input UserUpdateDataInput {
   name: String
   email: String
   password: String
-  memberOf: PeerCircleUpdateManyInput
+  memberOf: PeerCircleUpdateManyWithoutAdminInput
   createdThreads: ThreadUpdateManyInput
   participatingThreads: ThreadUpdateManyWithoutParticipantsInput
 }
@@ -1282,7 +1353,7 @@ input UserUpdateInput {
   name: String
   email: String
   password: String
-  memberOf: PeerCircleUpdateManyInput
+  memberOf: PeerCircleUpdateManyWithoutAdminInput
   createdThreads: ThreadUpdateManyInput
   participatingThreads: ThreadUpdateManyWithoutParticipantsInput
 }
@@ -1304,11 +1375,27 @@ input UserUpdateOneInput {
   upsert: UserUpsertNestedInput
 }
 
+input UserUpdateOneWithoutMemberOfInput {
+  create: UserCreateWithoutMemberOfInput
+  connect: UserWhereUniqueInput
+  delete: Boolean
+  update: UserUpdateWithoutMemberOfDataInput
+  upsert: UserUpsertWithoutMemberOfInput
+}
+
+input UserUpdateWithoutMemberOfDataInput {
+  name: String
+  email: String
+  password: String
+  createdThreads: ThreadUpdateManyInput
+  participatingThreads: ThreadUpdateManyWithoutParticipantsInput
+}
+
 input UserUpdateWithoutParticipatingThreadsDataInput {
   name: String
   email: String
   password: String
-  memberOf: PeerCircleUpdateManyInput
+  memberOf: PeerCircleUpdateManyWithoutAdminInput
   createdThreads: ThreadUpdateManyInput
 }
 
@@ -1320,6 +1407,11 @@ input UserUpdateWithWhereUniqueWithoutParticipatingThreadsInput {
 input UserUpsertNestedInput {
   update: UserUpdateDataInput!
   create: UserCreateInput!
+}
+
+input UserUpsertWithoutMemberOfInput {
+  update: UserUpdateWithoutMemberOfDataInput!
+  create: UserCreateWithoutMemberOfInput!
 }
 
 input UserUpsertWithWhereUniqueWithoutParticipatingThreadsInput {
@@ -1519,4 +1611,5 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
+  email: String
 }

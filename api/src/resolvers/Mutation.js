@@ -21,7 +21,7 @@ const signup = async (root, { password, ...rest }, ctx, info) => {
 };
 
 const login = async (root, { email, password }, ctx, info) => {
-  const user = await ctx.db.query({ where: { email } }, `{ id password}`);
+  const user = await ctx.db.query.user({ where: { email } }, `{ id password}`);
 
   if (!user) {
     throw new Error('No such user found.');
@@ -41,7 +41,23 @@ const login = async (root, { email, password }, ctx, info) => {
   };
 };
 
+const createPeerCircle = (root, { name, description }, ctx, info) => {
+  const userId = getUserId(ctx);
+
+  return ctx.db.mutation.createPeerCircle(
+    {
+      data: {
+        name,
+        description,
+        admin: { connect: { id: userId } }
+      }
+    },
+    info
+  );
+};
+
 module.exports = {
   signup,
-  login
+  login,
+  createPeerCircle
 };

@@ -1,16 +1,16 @@
 # import PeerCircle, AuthPayload, User from "./generated/prisma.graphql"
 
 type Query {
-  info: String!
   getPeerCircles: [PeerCircle!]!
   getPeerCircle(id: ID!): PeerCircle
   getUsers: [User!]!
+  getUser(id: ID!): User
 }
 
 type Mutation {
-  createPeerCircle(name: String!): PeerCircle!
+  createPeerCircle(name: String!, description: String!): PeerCircle!
   deletePeerCircle(id: ID!): PeerCircle
-  updatePeerCircle(id: ID!, name: String!): PeerCircle
+  updatePeerCircle(id: ID!): PeerCircle
   signup(email: String!, password: String!, name: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
 }
