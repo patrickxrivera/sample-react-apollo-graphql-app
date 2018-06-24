@@ -6,6 +6,7 @@ import Threads from './Threads';
 import Thread from './Thread';
 import Nav from './Nav';
 import Login from './Login';
+import CreateThread from './CreateThread';
 
 const wrapper = {
   width: '800px',
@@ -25,6 +26,7 @@ const App = () => (
       <Route exact path="/" component={Home} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/:peerCircle/threads" component={Threads} />
+      <Route path="/:peerCircle/threads/new" component={CreateThread} />
       <Route path="/:peerCircle/threads/:id" component={Thread} />
     </Switch>
   </div>

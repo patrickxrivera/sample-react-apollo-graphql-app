@@ -1,24 +1,41 @@
 import React from 'react';
+import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
+import { isEmpty } from 'ramda';
 
-const Threads = (props) => {
-  const { pathname } = props.location;
-  const { admin, threads, name, id } = props.location.state;
+import { handleNoData } from '../utils';
+import { GET_THREADS_BY_PEER_CIRCLE_ID } from '../graphql/queries';
 
-  return (
-    <div>
-      <h1>{name}</h1>
-      <p>Admin: {admin.name}</p>
-      <hr />
-      {threads.map(renderThread(pathname, id))}
-      <Link to="/">
-        <button>Back</button>
-      </Link>
-    </div>
-  );
-};
+const Threads = ({ location: { state: { id }, pathname } }) => (
+  <Query query={GET_THREADS_BY_PEER_CIRCLE_ID} variables={{ id }}>
+    {handleThreads(pathname, id)}
+  </Query>
+);
 
-const renderThread = (pathname, id) => ({ title, author, comments, ...rest }) => (
+const handleThreads = (pathname, peerCircleId) => ({ loading, error, data }) =>
+  isEmpty(data) ? handleNoData(loading, error) : renderThreads(data, pathname, peerCircleId);
+
+const renderThreads = (
+  { getPeerCircleById: { admin, threads, name, description } },
+  pathname,
+  peerCircleId
+) => (
+  <div>
+    <h1>{name}</h1>
+    <p>{description}</p>
+    <p>Admin: {admin.name}</p>
+    <Link to={`${pathname}/new`}>
+      <button>Create Thread</button>
+    </Link>
+    <hr />
+    {threads.map(renderThread(pathname, peerCircleId))}
+    <Link to="/">
+      <button>Back</button>
+    </Link>
+  </div>
+);
+
+const renderThread = (pathname, peerCircleId) => ({ id, title, author, comments, ...rest }) => (
   <div key={title}>
     <h3>{title}</h3>
     <p>By: {author.name}</p>
@@ -30,6 +47,7 @@ const renderThread = (pathname, id) => ({ title, author, comments, ...rest }) =>
           comments,
           title,
           author,
+          peerCircleId,
           ...rest
         }
       }}>

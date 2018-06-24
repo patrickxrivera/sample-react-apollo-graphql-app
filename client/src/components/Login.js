@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 
 import { saveUserData } from '../utils';
@@ -43,7 +42,6 @@ class Login extends Component {
       })
       .catch((err) => {
         throw new Error(err);
-        return;
       });
 
     const { token } = result.data.login;

@@ -1,9 +1,15 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
 
+const getPrevPath = (pathname) =>
+  pathname
+    .split('/')
+    .slice(0, -1)
+    .join('/');
+
 const Thread = (props) => {
-  const { title, author, body, comments, prevPath } = props.location.state;
+  const { pathname } = props.location;
+  const { title, author, body, comments, peerCircleId } = props.location.state;
 
   return (
     <div key={title}>
@@ -12,6 +18,15 @@ const Thread = (props) => {
       <p>By: {author.name}</p>
       <hr />
       <div>{comments.map(renderComment)}</div>
+      <Link
+        to={{
+          pathname: getPrevPath(pathname),
+          state: {
+            id: peerCircleId
+          }
+        }}>
+        <button>Back</button>
+      </Link>
     </div>
   );
 };

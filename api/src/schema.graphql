@@ -1,4 +1,4 @@
-# import PeerCircle, AuthPayload, User, Comment from "./generated/prisma.graphql"
+# import PeerCircle, AuthPayload, User, Comment, Thread from "./generated/prisma.graphql"
 
 type Query {
   # User
@@ -11,6 +11,9 @@ type Query {
 
   # Replies
   getAllRepliesByUserId: User
+
+  # Threads
+  getThreadsByPeerCircleId(id: ID!): [Thread!]!
 }
 
 type Mutation {

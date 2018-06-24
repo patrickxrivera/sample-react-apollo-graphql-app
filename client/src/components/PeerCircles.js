@@ -16,7 +16,7 @@ const renderPeerCircles = ({ getAllPeerCircles }) => [
   getAllPeerCircles.map(renderPeerCircle)
 ];
 
-const renderPeerCircle = ({ id, name, description, ...rest }) => (
+const renderPeerCircle = ({ id, name, description }) => (
   <div key={id}>
     <h2>{name}</h2>
     <p>{description}</p>
@@ -25,8 +25,7 @@ const renderPeerCircle = ({ id, name, description, ...rest }) => (
         pathname: `/${name.toLowerCase()}/threads`,
         state: {
           name,
-          id,
-          ...rest
+          id
         }
       }}>
       <button>See Threads</button>
