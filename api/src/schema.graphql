@@ -7,7 +7,7 @@ type Query {
 
   # Peer Circle
   getPeerCircles: [PeerCircle!]!
-  getPeerCircle(id: ID!): PeerCircle
+  getPeerCircleById(id: ID!): PeerCircle
 }
 
 type Mutation {
