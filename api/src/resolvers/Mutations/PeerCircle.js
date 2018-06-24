@@ -1,4 +1,4 @@
-const { APP_SECRET, getUserId } = require('../../utils');
+const { getUserId } = require('../../utils');
 
 const createPeerCircle = (root, { name, description }, ctx, info) => {
   const userId = getUserId(ctx);

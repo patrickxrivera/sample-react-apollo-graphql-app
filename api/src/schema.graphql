@@ -3,7 +3,7 @@
 type Query {
   # User
   getUsers: [User!]!
-  getUser(id: ID!): User
+  getUserById(id: ID!): User
 
   # Peer Circle
   getPeerCircles: [PeerCircle!]!
@@ -21,5 +21,8 @@ type Mutation {
   updatePeerCircle(id: ID!): PeerCircle
 
   # Thread
-  createThread(title: String!, body: String!): Thread!
+  createThread(title: String!, body: String!, peerCircleId: ID!): Thread!
+
+  # Comment
+  createComment(text: String!, threadId: ID!): Comment!
 }

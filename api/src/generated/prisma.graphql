@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/public-nickelfairy-857/career-karma-api/dev
-# timestamp: Sat Jun 23 2018 12:59:08 GMT-0700 (PDT)
+# timestamp: Sat Jun 23 2018 17:43:31 GMT-0700 (PDT)
 
 type AggregateAuthPayload {
   count: Int!
@@ -170,6 +170,8 @@ type Comment implements Node {
   id: ID!
   author(where: UserWhereInput): User!
   text: String!
+  likes: Int!
+  thread(where: ThreadWhereInput): Thread!
 }
 
 """A connection to a list of items."""
@@ -184,12 +186,20 @@ type CommentConnection {
 
 input CommentCreateInput {
   text: String!
+  likes: Int!
   author: UserCreateOneInput!
+  thread: ThreadCreateOneWithoutCommentsInput!
 }
 
-input CommentCreateManyInput {
-  create: [CommentCreateInput!]
+input CommentCreateManyWithoutThreadInput {
+  create: [CommentCreateWithoutThreadInput!]
   connect: [CommentWhereUniqueInput!]
+}
+
+input CommentCreateWithoutThreadInput {
+  text: String!
+  likes: Int!
+  author: UserCreateOneInput!
 }
 
 """An edge in a connection."""
@@ -206,6 +216,8 @@ enum CommentOrderByInput {
   id_DESC
   text_ASC
   text_DESC
+  likes_ASC
+  likes_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -215,6 +227,7 @@ enum CommentOrderByInput {
 type CommentPreviousValues {
   id: ID!
   text: String!
+  likes: Int!
 }
 
 type CommentSubscriptionPayload {
@@ -256,34 +269,37 @@ input CommentSubscriptionWhereInput {
   node: CommentWhereInput
 }
 
-input CommentUpdateDataInput {
-  text: String
-  author: UserUpdateOneInput
-}
-
 input CommentUpdateInput {
   text: String
+  likes: Int
   author: UserUpdateOneInput
+  thread: ThreadUpdateOneWithoutCommentsInput
 }
 
-input CommentUpdateManyInput {
-  create: [CommentCreateInput!]
+input CommentUpdateManyWithoutThreadInput {
+  create: [CommentCreateWithoutThreadInput!]
   connect: [CommentWhereUniqueInput!]
   disconnect: [CommentWhereUniqueInput!]
   delete: [CommentWhereUniqueInput!]
-  update: [CommentUpdateWithWhereUniqueNestedInput!]
-  upsert: [CommentUpsertWithWhereUniqueNestedInput!]
+  update: [CommentUpdateWithWhereUniqueWithoutThreadInput!]
+  upsert: [CommentUpsertWithWhereUniqueWithoutThreadInput!]
 }
 
-input CommentUpdateWithWhereUniqueNestedInput {
-  where: CommentWhereUniqueInput!
-  data: CommentUpdateDataInput!
+input CommentUpdateWithoutThreadDataInput {
+  text: String
+  likes: Int
+  author: UserUpdateOneInput
 }
 
-input CommentUpsertWithWhereUniqueNestedInput {
+input CommentUpdateWithWhereUniqueWithoutThreadInput {
   where: CommentWhereUniqueInput!
-  update: CommentUpdateDataInput!
-  create: CommentCreateInput!
+  data: CommentUpdateWithoutThreadDataInput!
+}
+
+input CommentUpsertWithWhereUniqueWithoutThreadInput {
+  where: CommentWhereUniqueInput!
+  update: CommentUpdateWithoutThreadDataInput!
+  create: CommentCreateWithoutThreadInput!
 }
 
 input CommentWhereInput {
@@ -375,10 +391,30 @@ input CommentWhereInput {
 
   """All values not ending with the given string."""
   text_not_ends_with: String
+  likes: Int
+
+  """All values that are not equal to given value."""
+  likes_not: Int
+
+  """All values that are contained in given list."""
+  likes_in: [Int!]
+
+  """All values that are not contained in given list."""
+  likes_not_in: [Int!]
+
+  """All values less than the given value."""
+  likes_lt: Int
+
+  """All values less than or equal the given value."""
+  likes_lte: Int
+
+  """All values greater than the given value."""
+  likes_gt: Int
+
+  """All values greater than or equal the given value."""
+  likes_gte: Int
   author: UserWhereInput
-  _MagicalBackRelation_CommentToThread_every: ThreadWhereInput
-  _MagicalBackRelation_CommentToThread_some: ThreadWhereInput
-  _MagicalBackRelation_CommentToThread_none: ThreadWhereInput
+  thread: ThreadWhereInput
 }
 
 input CommentWhereUniqueInput {
@@ -395,32 +431,32 @@ scalar Long
 
 type Mutation {
   createPeerCircle(data: PeerCircleCreateInput!): PeerCircle!
-  createAuthPayload(data: AuthPayloadCreateInput!): AuthPayload!
   createThread(data: ThreadCreateInput!): Thread!
-  createUser(data: UserCreateInput!): User!
   createComment(data: CommentCreateInput!): Comment!
+  createAuthPayload(data: AuthPayloadCreateInput!): AuthPayload!
+  createUser(data: UserCreateInput!): User!
   updatePeerCircle(data: PeerCircleUpdateInput!, where: PeerCircleWhereUniqueInput!): PeerCircle
   updateThread(data: ThreadUpdateInput!, where: ThreadWhereUniqueInput!): Thread
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateComment(data: CommentUpdateInput!, where: CommentWhereUniqueInput!): Comment
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   deletePeerCircle(where: PeerCircleWhereUniqueInput!): PeerCircle
   deleteThread(where: ThreadWhereUniqueInput!): Thread
-  deleteUser(where: UserWhereUniqueInput!): User
   deleteComment(where: CommentWhereUniqueInput!): Comment
+  deleteUser(where: UserWhereUniqueInput!): User
   upsertPeerCircle(where: PeerCircleWhereUniqueInput!, create: PeerCircleCreateInput!, update: PeerCircleUpdateInput!): PeerCircle!
   upsertThread(where: ThreadWhereUniqueInput!, create: ThreadCreateInput!, update: ThreadUpdateInput!): Thread!
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertComment(where: CommentWhereUniqueInput!, create: CommentCreateInput!, update: CommentUpdateInput!): Comment!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   updateManyPeerCircles(data: PeerCircleUpdateInput!, where: PeerCircleWhereInput): BatchPayload!
-  updateManyAuthPayloads(data: AuthPayloadUpdateInput!, where: AuthPayloadWhereInput): BatchPayload!
   updateManyThreads(data: ThreadUpdateInput!, where: ThreadWhereInput): BatchPayload!
-  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManyComments(data: CommentUpdateInput!, where: CommentWhereInput): BatchPayload!
+  updateManyAuthPayloads(data: AuthPayloadUpdateInput!, where: AuthPayloadWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   deleteManyPeerCircles(where: PeerCircleWhereInput): BatchPayload!
-  deleteManyAuthPayloads(where: AuthPayloadWhereInput): BatchPayload!
   deleteManyThreads(where: ThreadWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyComments(where: CommentWhereInput): BatchPayload!
+  deleteManyAuthPayloads(where: AuthPayloadWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -757,19 +793,19 @@ input PeerCircleWhereUniqueInput {
 
 type Query {
   peerCircles(where: PeerCircleWhereInput, orderBy: PeerCircleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PeerCircle]!
-  authPayloads(where: AuthPayloadWhereInput, orderBy: AuthPayloadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [AuthPayload]!
   threads(where: ThreadWhereInput, orderBy: ThreadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Thread]!
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment]!
+  authPayloads(where: AuthPayloadWhereInput, orderBy: AuthPayloadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [AuthPayload]!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   peerCircle(where: PeerCircleWhereUniqueInput!): PeerCircle
   thread(where: ThreadWhereUniqueInput!): Thread
-  user(where: UserWhereUniqueInput!): User
   comment(where: CommentWhereUniqueInput!): Comment
+  user(where: UserWhereUniqueInput!): User
   peerCirclesConnection(where: PeerCircleWhereInput, orderBy: PeerCircleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PeerCircleConnection!
-  authPayloadsConnection(where: AuthPayloadWhereInput, orderBy: AuthPayloadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AuthPayloadConnection!
   threadsConnection(where: ThreadWhereInput, orderBy: ThreadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ThreadConnection!
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   commentsConnection(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CommentConnection!
+  authPayloadsConnection(where: AuthPayloadWhereInput, orderBy: AuthPayloadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AuthPayloadConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -780,10 +816,10 @@ type Query {
 
 type Subscription {
   peerCircle(where: PeerCircleSubscriptionWhereInput): PeerCircleSubscriptionPayload
-  authPayload(where: AuthPayloadSubscriptionWhereInput): AuthPayloadSubscriptionPayload
   thread(where: ThreadSubscriptionWhereInput): ThreadSubscriptionPayload
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   comment(where: CommentSubscriptionWhereInput): CommentSubscriptionPayload
+  authPayload(where: AuthPayloadSubscriptionWhereInput): AuthPayloadSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
 type Thread implements Node {
@@ -795,7 +831,6 @@ type Thread implements Node {
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
   peerCircle(where: PeerCircleWhereInput): PeerCircle!
   participants(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
-  messageCount: Int!
 }
 
 """A connection to a list of items."""
@@ -811,15 +846,14 @@ type ThreadConnection {
 input ThreadCreateInput {
   title: String!
   body: String!
-  messageCount: Int!
-  author: UserCreateOneInput!
-  comments: CommentCreateManyInput
+  author: UserCreateOneWithoutCreatedThreadsInput!
+  comments: CommentCreateManyWithoutThreadInput
   peerCircle: PeerCircleCreateOneWithoutThreadsInput!
   participants: UserCreateManyWithoutParticipatingThreadsInput
 }
 
-input ThreadCreateManyInput {
-  create: [ThreadCreateInput!]
+input ThreadCreateManyWithoutAuthorInput {
+  create: [ThreadCreateWithoutAuthorInput!]
   connect: [ThreadWhereUniqueInput!]
 }
 
@@ -833,21 +867,40 @@ input ThreadCreateManyWithoutPeerCircleInput {
   connect: [ThreadWhereUniqueInput!]
 }
 
+input ThreadCreateOneWithoutCommentsInput {
+  create: ThreadCreateWithoutCommentsInput
+  connect: ThreadWhereUniqueInput
+}
+
+input ThreadCreateWithoutAuthorInput {
+  title: String!
+  body: String!
+  comments: CommentCreateManyWithoutThreadInput
+  peerCircle: PeerCircleCreateOneWithoutThreadsInput!
+  participants: UserCreateManyWithoutParticipatingThreadsInput
+}
+
+input ThreadCreateWithoutCommentsInput {
+  title: String!
+  body: String!
+  author: UserCreateOneWithoutCreatedThreadsInput!
+  peerCircle: PeerCircleCreateOneWithoutThreadsInput!
+  participants: UserCreateManyWithoutParticipatingThreadsInput
+}
+
 input ThreadCreateWithoutParticipantsInput {
   title: String!
   body: String!
-  messageCount: Int!
-  author: UserCreateOneInput!
-  comments: CommentCreateManyInput
+  author: UserCreateOneWithoutCreatedThreadsInput!
+  comments: CommentCreateManyWithoutThreadInput
   peerCircle: PeerCircleCreateOneWithoutThreadsInput!
 }
 
 input ThreadCreateWithoutPeerCircleInput {
   title: String!
   body: String!
-  messageCount: Int!
-  author: UserCreateOneInput!
-  comments: CommentCreateManyInput
+  author: UserCreateOneWithoutCreatedThreadsInput!
+  comments: CommentCreateManyWithoutThreadInput
   participants: UserCreateManyWithoutParticipatingThreadsInput
 }
 
@@ -869,8 +922,6 @@ enum ThreadOrderByInput {
   title_DESC
   body_ASC
   body_DESC
-  messageCount_ASC
-  messageCount_DESC
   updatedAt_ASC
   updatedAt_DESC
 }
@@ -880,7 +931,6 @@ type ThreadPreviousValues {
   createdAt: DateTime!
   title: String!
   body: String!
-  messageCount: Int!
 }
 
 type ThreadSubscriptionPayload {
@@ -922,33 +972,22 @@ input ThreadSubscriptionWhereInput {
   node: ThreadWhereInput
 }
 
-input ThreadUpdateDataInput {
-  title: String
-  body: String
-  messageCount: Int
-  author: UserUpdateOneInput
-  comments: CommentUpdateManyInput
-  peerCircle: PeerCircleUpdateOneWithoutThreadsInput
-  participants: UserUpdateManyWithoutParticipatingThreadsInput
-}
-
 input ThreadUpdateInput {
   title: String
   body: String
-  messageCount: Int
-  author: UserUpdateOneInput
-  comments: CommentUpdateManyInput
+  author: UserUpdateOneWithoutCreatedThreadsInput
+  comments: CommentUpdateManyWithoutThreadInput
   peerCircle: PeerCircleUpdateOneWithoutThreadsInput
   participants: UserUpdateManyWithoutParticipatingThreadsInput
 }
 
-input ThreadUpdateManyInput {
-  create: [ThreadCreateInput!]
+input ThreadUpdateManyWithoutAuthorInput {
+  create: [ThreadCreateWithoutAuthorInput!]
   connect: [ThreadWhereUniqueInput!]
   disconnect: [ThreadWhereUniqueInput!]
   delete: [ThreadWhereUniqueInput!]
-  update: [ThreadUpdateWithWhereUniqueNestedInput!]
-  upsert: [ThreadUpsertWithWhereUniqueNestedInput!]
+  update: [ThreadUpdateWithWhereUniqueWithoutAuthorInput!]
+  upsert: [ThreadUpsertWithWhereUniqueWithoutAuthorInput!]
 }
 
 input ThreadUpdateManyWithoutParticipantsInput {
@@ -969,27 +1008,49 @@ input ThreadUpdateManyWithoutPeerCircleInput {
   upsert: [ThreadUpsertWithWhereUniqueWithoutPeerCircleInput!]
 }
 
+input ThreadUpdateOneWithoutCommentsInput {
+  create: ThreadCreateWithoutCommentsInput
+  connect: ThreadWhereUniqueInput
+  delete: Boolean
+  update: ThreadUpdateWithoutCommentsDataInput
+  upsert: ThreadUpsertWithoutCommentsInput
+}
+
+input ThreadUpdateWithoutAuthorDataInput {
+  title: String
+  body: String
+  comments: CommentUpdateManyWithoutThreadInput
+  peerCircle: PeerCircleUpdateOneWithoutThreadsInput
+  participants: UserUpdateManyWithoutParticipatingThreadsInput
+}
+
+input ThreadUpdateWithoutCommentsDataInput {
+  title: String
+  body: String
+  author: UserUpdateOneWithoutCreatedThreadsInput
+  peerCircle: PeerCircleUpdateOneWithoutThreadsInput
+  participants: UserUpdateManyWithoutParticipatingThreadsInput
+}
+
 input ThreadUpdateWithoutParticipantsDataInput {
   title: String
   body: String
-  messageCount: Int
-  author: UserUpdateOneInput
-  comments: CommentUpdateManyInput
+  author: UserUpdateOneWithoutCreatedThreadsInput
+  comments: CommentUpdateManyWithoutThreadInput
   peerCircle: PeerCircleUpdateOneWithoutThreadsInput
 }
 
 input ThreadUpdateWithoutPeerCircleDataInput {
   title: String
   body: String
-  messageCount: Int
-  author: UserUpdateOneInput
-  comments: CommentUpdateManyInput
+  author: UserUpdateOneWithoutCreatedThreadsInput
+  comments: CommentUpdateManyWithoutThreadInput
   participants: UserUpdateManyWithoutParticipatingThreadsInput
 }
 
-input ThreadUpdateWithWhereUniqueNestedInput {
+input ThreadUpdateWithWhereUniqueWithoutAuthorInput {
   where: ThreadWhereUniqueInput!
-  data: ThreadUpdateDataInput!
+  data: ThreadUpdateWithoutAuthorDataInput!
 }
 
 input ThreadUpdateWithWhereUniqueWithoutParticipantsInput {
@@ -1002,10 +1063,15 @@ input ThreadUpdateWithWhereUniqueWithoutPeerCircleInput {
   data: ThreadUpdateWithoutPeerCircleDataInput!
 }
 
-input ThreadUpsertWithWhereUniqueNestedInput {
+input ThreadUpsertWithoutCommentsInput {
+  update: ThreadUpdateWithoutCommentsDataInput!
+  create: ThreadCreateWithoutCommentsInput!
+}
+
+input ThreadUpsertWithWhereUniqueWithoutAuthorInput {
   where: ThreadWhereUniqueInput!
-  update: ThreadUpdateDataInput!
-  create: ThreadCreateInput!
+  update: ThreadUpdateWithoutAuthorDataInput!
+  create: ThreadCreateWithoutAuthorInput!
 }
 
 input ThreadUpsertWithWhereUniqueWithoutParticipantsInput {
@@ -1171,28 +1237,6 @@ input ThreadWhereInput {
 
   """All values not ending with the given string."""
   body_not_ends_with: String
-  messageCount: Int
-
-  """All values that are not equal to given value."""
-  messageCount_not: Int
-
-  """All values that are contained in given list."""
-  messageCount_in: [Int!]
-
-  """All values that are not contained in given list."""
-  messageCount_not_in: [Int!]
-
-  """All values less than the given value."""
-  messageCount_lt: Int
-
-  """All values less than or equal the given value."""
-  messageCount_lte: Int
-
-  """All values greater than the given value."""
-  messageCount_gt: Int
-
-  """All values greater than or equal the given value."""
-  messageCount_gte: Int
   author: UserWhereInput
   comments_every: CommentWhereInput
   comments_some: CommentWhereInput
@@ -1201,9 +1245,6 @@ input ThreadWhereInput {
   participants_every: UserWhereInput
   participants_some: UserWhereInput
   participants_none: UserWhereInput
-  _MagicalBackRelation_UserCreatedThread_every: UserWhereInput
-  _MagicalBackRelation_UserCreatedThread_some: UserWhereInput
-  _MagicalBackRelation_UserCreatedThread_none: UserWhereInput
 }
 
 input ThreadWhereUniqueInput {
@@ -1235,7 +1276,7 @@ input UserCreateInput {
   email: String!
   password: String!
   memberOf: PeerCircleCreateManyWithoutAdminInput
-  createdThreads: ThreadCreateManyInput
+  createdThreads: ThreadCreateManyWithoutAuthorInput
   participatingThreads: ThreadCreateManyWithoutParticipantsInput
 }
 
@@ -1249,16 +1290,29 @@ input UserCreateOneInput {
   connect: UserWhereUniqueInput
 }
 
+input UserCreateOneWithoutCreatedThreadsInput {
+  create: UserCreateWithoutCreatedThreadsInput
+  connect: UserWhereUniqueInput
+}
+
 input UserCreateOneWithoutMemberOfInput {
   create: UserCreateWithoutMemberOfInput
   connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutCreatedThreadsInput {
+  name: String!
+  email: String!
+  password: String!
+  memberOf: PeerCircleCreateManyWithoutAdminInput
+  participatingThreads: ThreadCreateManyWithoutParticipantsInput
 }
 
 input UserCreateWithoutMemberOfInput {
   name: String!
   email: String!
   password: String!
-  createdThreads: ThreadCreateManyInput
+  createdThreads: ThreadCreateManyWithoutAuthorInput
   participatingThreads: ThreadCreateManyWithoutParticipantsInput
 }
 
@@ -1267,7 +1321,7 @@ input UserCreateWithoutParticipatingThreadsInput {
   email: String!
   password: String!
   memberOf: PeerCircleCreateManyWithoutAdminInput
-  createdThreads: ThreadCreateManyInput
+  createdThreads: ThreadCreateManyWithoutAuthorInput
 }
 
 """An edge in a connection."""
@@ -1345,7 +1399,7 @@ input UserUpdateDataInput {
   email: String
   password: String
   memberOf: PeerCircleUpdateManyWithoutAdminInput
-  createdThreads: ThreadUpdateManyInput
+  createdThreads: ThreadUpdateManyWithoutAuthorInput
   participatingThreads: ThreadUpdateManyWithoutParticipantsInput
 }
 
@@ -1354,7 +1408,7 @@ input UserUpdateInput {
   email: String
   password: String
   memberOf: PeerCircleUpdateManyWithoutAdminInput
-  createdThreads: ThreadUpdateManyInput
+  createdThreads: ThreadUpdateManyWithoutAuthorInput
   participatingThreads: ThreadUpdateManyWithoutParticipantsInput
 }
 
@@ -1375,6 +1429,14 @@ input UserUpdateOneInput {
   upsert: UserUpsertNestedInput
 }
 
+input UserUpdateOneWithoutCreatedThreadsInput {
+  create: UserCreateWithoutCreatedThreadsInput
+  connect: UserWhereUniqueInput
+  delete: Boolean
+  update: UserUpdateWithoutCreatedThreadsDataInput
+  upsert: UserUpsertWithoutCreatedThreadsInput
+}
+
 input UserUpdateOneWithoutMemberOfInput {
   create: UserCreateWithoutMemberOfInput
   connect: UserWhereUniqueInput
@@ -1383,11 +1445,19 @@ input UserUpdateOneWithoutMemberOfInput {
   upsert: UserUpsertWithoutMemberOfInput
 }
 
+input UserUpdateWithoutCreatedThreadsDataInput {
+  name: String
+  email: String
+  password: String
+  memberOf: PeerCircleUpdateManyWithoutAdminInput
+  participatingThreads: ThreadUpdateManyWithoutParticipantsInput
+}
+
 input UserUpdateWithoutMemberOfDataInput {
   name: String
   email: String
   password: String
-  createdThreads: ThreadUpdateManyInput
+  createdThreads: ThreadUpdateManyWithoutAuthorInput
   participatingThreads: ThreadUpdateManyWithoutParticipantsInput
 }
 
@@ -1396,7 +1466,7 @@ input UserUpdateWithoutParticipatingThreadsDataInput {
   email: String
   password: String
   memberOf: PeerCircleUpdateManyWithoutAdminInput
-  createdThreads: ThreadUpdateManyInput
+  createdThreads: ThreadUpdateManyWithoutAuthorInput
 }
 
 input UserUpdateWithWhereUniqueWithoutParticipatingThreadsInput {
@@ -1407,6 +1477,11 @@ input UserUpdateWithWhereUniqueWithoutParticipatingThreadsInput {
 input UserUpsertNestedInput {
   update: UserUpdateDataInput!
   create: UserCreateInput!
+}
+
+input UserUpsertWithoutCreatedThreadsInput {
+  update: UserUpdateWithoutCreatedThreadsDataInput!
+  create: UserCreateWithoutCreatedThreadsInput!
 }
 
 input UserUpsertWithoutMemberOfInput {
@@ -1601,9 +1676,6 @@ input UserWhereInput {
   _MagicalBackRelation_CommentToUser_every: CommentWhereInput
   _MagicalBackRelation_CommentToUser_some: CommentWhereInput
   _MagicalBackRelation_CommentToUser_none: CommentWhereInput
-  _MagicalBackRelation_UserThread_every: ThreadWhereInput
-  _MagicalBackRelation_UserThread_some: ThreadWhereInput
-  _MagicalBackRelation_UserThread_none: ThreadWhereInput
   _MagicalBackRelation_AuthPayloadToUser_every: AuthPayloadWhereInput
   _MagicalBackRelation_AuthPayloadToUser_some: AuthPayloadWhereInput
   _MagicalBackRelation_AuthPayloadToUser_none: AuthPayloadWhereInput

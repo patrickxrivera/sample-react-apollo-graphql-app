@@ -19,19 +19,20 @@ type PeerCircle {
 type Thread {
   id: ID! @unique
   createdAt: DateTime!
-  author: User! @relation(name: "UserThread")
+  author: User! @relation(name: "UserCreatedThread")
   title: String!
   body: String!
-  comments: [Comment!]!
+  comments: [Comment!]! @relation(name: "ThreadComment")
   peerCircle: PeerCircle! @relation(name: "PeerCircleThread")
   participants: [User!]! @relation(name: "UserParticipatingThread")
-  messageCount: Int!
 }
 
 type Comment {
   id: ID! @unique
   author: User!
   text: String!
+  likes: Int!
+  thread: Thread! @relation(name: "ThreadComment")
 }
 
 type AuthPayload {
