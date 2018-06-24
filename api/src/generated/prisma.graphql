@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/public-nickelfairy-857/career-karma-api/dev
-# timestamp: Sat Jun 23 2018 17:43:31 GMT-0700 (PDT)
+# timestamp: Sat Jun 23 2018 18:40:40 GMT-0700 (PDT)
 
 type AggregateAuthPayload {
   count: Int!
@@ -187,8 +187,13 @@ type CommentConnection {
 input CommentCreateInput {
   text: String!
   likes: Int!
-  author: UserCreateOneInput!
+  author: UserCreateOneWithoutRepliesInput!
   thread: ThreadCreateOneWithoutCommentsInput!
+}
+
+input CommentCreateManyWithoutAuthorInput {
+  create: [CommentCreateWithoutAuthorInput!]
+  connect: [CommentWhereUniqueInput!]
 }
 
 input CommentCreateManyWithoutThreadInput {
@@ -196,10 +201,16 @@ input CommentCreateManyWithoutThreadInput {
   connect: [CommentWhereUniqueInput!]
 }
 
+input CommentCreateWithoutAuthorInput {
+  text: String!
+  likes: Int!
+  thread: ThreadCreateOneWithoutCommentsInput!
+}
+
 input CommentCreateWithoutThreadInput {
   text: String!
   likes: Int!
-  author: UserCreateOneInput!
+  author: UserCreateOneWithoutRepliesInput!
 }
 
 """An edge in a connection."""
@@ -272,8 +283,17 @@ input CommentSubscriptionWhereInput {
 input CommentUpdateInput {
   text: String
   likes: Int
-  author: UserUpdateOneInput
+  author: UserUpdateOneWithoutRepliesInput
   thread: ThreadUpdateOneWithoutCommentsInput
+}
+
+input CommentUpdateManyWithoutAuthorInput {
+  create: [CommentCreateWithoutAuthorInput!]
+  connect: [CommentWhereUniqueInput!]
+  disconnect: [CommentWhereUniqueInput!]
+  delete: [CommentWhereUniqueInput!]
+  update: [CommentUpdateWithWhereUniqueWithoutAuthorInput!]
+  upsert: [CommentUpsertWithWhereUniqueWithoutAuthorInput!]
 }
 
 input CommentUpdateManyWithoutThreadInput {
@@ -285,15 +305,32 @@ input CommentUpdateManyWithoutThreadInput {
   upsert: [CommentUpsertWithWhereUniqueWithoutThreadInput!]
 }
 
+input CommentUpdateWithoutAuthorDataInput {
+  text: String
+  likes: Int
+  thread: ThreadUpdateOneWithoutCommentsInput
+}
+
 input CommentUpdateWithoutThreadDataInput {
   text: String
   likes: Int
-  author: UserUpdateOneInput
+  author: UserUpdateOneWithoutRepliesInput
+}
+
+input CommentUpdateWithWhereUniqueWithoutAuthorInput {
+  where: CommentWhereUniqueInput!
+  data: CommentUpdateWithoutAuthorDataInput!
 }
 
 input CommentUpdateWithWhereUniqueWithoutThreadInput {
   where: CommentWhereUniqueInput!
   data: CommentUpdateWithoutThreadDataInput!
+}
+
+input CommentUpsertWithWhereUniqueWithoutAuthorInput {
+  where: CommentWhereUniqueInput!
+  update: CommentUpdateWithoutAuthorDataInput!
+  create: CommentCreateWithoutAuthorInput!
 }
 
 input CommentUpsertWithWhereUniqueWithoutThreadInput {
@@ -1257,6 +1294,7 @@ type User implements Node {
   email: String!
   password: String!
   memberOf(where: PeerCircleWhereInput, orderBy: PeerCircleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PeerCircle!]
+  replies(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
   createdThreads(where: ThreadWhereInput, orderBy: ThreadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Thread!]
   participatingThreads(where: ThreadWhereInput, orderBy: ThreadOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Thread!]
 }
@@ -1276,6 +1314,7 @@ input UserCreateInput {
   email: String!
   password: String!
   memberOf: PeerCircleCreateManyWithoutAdminInput
+  replies: CommentCreateManyWithoutAuthorInput
   createdThreads: ThreadCreateManyWithoutAuthorInput
   participatingThreads: ThreadCreateManyWithoutParticipantsInput
 }
@@ -1300,11 +1339,17 @@ input UserCreateOneWithoutMemberOfInput {
   connect: UserWhereUniqueInput
 }
 
+input UserCreateOneWithoutRepliesInput {
+  create: UserCreateWithoutRepliesInput
+  connect: UserWhereUniqueInput
+}
+
 input UserCreateWithoutCreatedThreadsInput {
   name: String!
   email: String!
   password: String!
   memberOf: PeerCircleCreateManyWithoutAdminInput
+  replies: CommentCreateManyWithoutAuthorInput
   participatingThreads: ThreadCreateManyWithoutParticipantsInput
 }
 
@@ -1312,6 +1357,7 @@ input UserCreateWithoutMemberOfInput {
   name: String!
   email: String!
   password: String!
+  replies: CommentCreateManyWithoutAuthorInput
   createdThreads: ThreadCreateManyWithoutAuthorInput
   participatingThreads: ThreadCreateManyWithoutParticipantsInput
 }
@@ -1321,7 +1367,17 @@ input UserCreateWithoutParticipatingThreadsInput {
   email: String!
   password: String!
   memberOf: PeerCircleCreateManyWithoutAdminInput
+  replies: CommentCreateManyWithoutAuthorInput
   createdThreads: ThreadCreateManyWithoutAuthorInput
+}
+
+input UserCreateWithoutRepliesInput {
+  name: String!
+  email: String!
+  password: String!
+  memberOf: PeerCircleCreateManyWithoutAdminInput
+  createdThreads: ThreadCreateManyWithoutAuthorInput
+  participatingThreads: ThreadCreateManyWithoutParticipantsInput
 }
 
 """An edge in a connection."""
@@ -1399,6 +1455,7 @@ input UserUpdateDataInput {
   email: String
   password: String
   memberOf: PeerCircleUpdateManyWithoutAdminInput
+  replies: CommentUpdateManyWithoutAuthorInput
   createdThreads: ThreadUpdateManyWithoutAuthorInput
   participatingThreads: ThreadUpdateManyWithoutParticipantsInput
 }
@@ -1408,6 +1465,7 @@ input UserUpdateInput {
   email: String
   password: String
   memberOf: PeerCircleUpdateManyWithoutAdminInput
+  replies: CommentUpdateManyWithoutAuthorInput
   createdThreads: ThreadUpdateManyWithoutAuthorInput
   participatingThreads: ThreadUpdateManyWithoutParticipantsInput
 }
@@ -1424,6 +1482,7 @@ input UserUpdateManyWithoutParticipatingThreadsInput {
 input UserUpdateOneInput {
   create: UserCreateInput
   connect: UserWhereUniqueInput
+  disconnect: Boolean
   delete: Boolean
   update: UserUpdateDataInput
   upsert: UserUpsertNestedInput
@@ -1445,11 +1504,20 @@ input UserUpdateOneWithoutMemberOfInput {
   upsert: UserUpsertWithoutMemberOfInput
 }
 
+input UserUpdateOneWithoutRepliesInput {
+  create: UserCreateWithoutRepliesInput
+  connect: UserWhereUniqueInput
+  delete: Boolean
+  update: UserUpdateWithoutRepliesDataInput
+  upsert: UserUpsertWithoutRepliesInput
+}
+
 input UserUpdateWithoutCreatedThreadsDataInput {
   name: String
   email: String
   password: String
   memberOf: PeerCircleUpdateManyWithoutAdminInput
+  replies: CommentUpdateManyWithoutAuthorInput
   participatingThreads: ThreadUpdateManyWithoutParticipantsInput
 }
 
@@ -1457,6 +1525,7 @@ input UserUpdateWithoutMemberOfDataInput {
   name: String
   email: String
   password: String
+  replies: CommentUpdateManyWithoutAuthorInput
   createdThreads: ThreadUpdateManyWithoutAuthorInput
   participatingThreads: ThreadUpdateManyWithoutParticipantsInput
 }
@@ -1466,7 +1535,17 @@ input UserUpdateWithoutParticipatingThreadsDataInput {
   email: String
   password: String
   memberOf: PeerCircleUpdateManyWithoutAdminInput
+  replies: CommentUpdateManyWithoutAuthorInput
   createdThreads: ThreadUpdateManyWithoutAuthorInput
+}
+
+input UserUpdateWithoutRepliesDataInput {
+  name: String
+  email: String
+  password: String
+  memberOf: PeerCircleUpdateManyWithoutAdminInput
+  createdThreads: ThreadUpdateManyWithoutAuthorInput
+  participatingThreads: ThreadUpdateManyWithoutParticipantsInput
 }
 
 input UserUpdateWithWhereUniqueWithoutParticipatingThreadsInput {
@@ -1487,6 +1566,11 @@ input UserUpsertWithoutCreatedThreadsInput {
 input UserUpsertWithoutMemberOfInput {
   update: UserUpdateWithoutMemberOfDataInput!
   create: UserCreateWithoutMemberOfInput!
+}
+
+input UserUpsertWithoutRepliesInput {
+  update: UserUpdateWithoutRepliesDataInput!
+  create: UserCreateWithoutRepliesInput!
 }
 
 input UserUpsertWithWhereUniqueWithoutParticipatingThreadsInput {
@@ -1667,15 +1751,15 @@ input UserWhereInput {
   memberOf_every: PeerCircleWhereInput
   memberOf_some: PeerCircleWhereInput
   memberOf_none: PeerCircleWhereInput
+  replies_every: CommentWhereInput
+  replies_some: CommentWhereInput
+  replies_none: CommentWhereInput
   createdThreads_every: ThreadWhereInput
   createdThreads_some: ThreadWhereInput
   createdThreads_none: ThreadWhereInput
   participatingThreads_every: ThreadWhereInput
   participatingThreads_some: ThreadWhereInput
   participatingThreads_none: ThreadWhereInput
-  _MagicalBackRelation_CommentToUser_every: CommentWhereInput
-  _MagicalBackRelation_CommentToUser_some: CommentWhereInput
-  _MagicalBackRelation_CommentToUser_none: CommentWhereInput
   _MagicalBackRelation_AuthPayloadToUser_every: AuthPayloadWhereInput
   _MagicalBackRelation_AuthPayloadToUser_some: AuthPayloadWhereInput
   _MagicalBackRelation_AuthPayloadToUser_none: AuthPayloadWhereInput

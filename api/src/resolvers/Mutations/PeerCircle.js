@@ -15,10 +15,12 @@ const createPeerCircle = (root, { name, description }, ctx, info) => {
   );
 };
 
-const deletePeerCircle = (root, { id }, ctx, info) =>
-  ctx.db.mutation.deletePeerCircle({ where: { id } }, info);
+const joinPeerCircle = (root, { peerCircleId }, ctx, info) => {
+  const userId = getUserId(ctx);
+  return {};
+  // return ctx.db.mutation.
+};
 
 module.exports = {
-  createPeerCircle,
-  deletePeerCircle
+  createPeerCircle
 };

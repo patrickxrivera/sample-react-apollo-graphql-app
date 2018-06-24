@@ -2,10 +2,27 @@ import gql from 'graphql-tag';
 
 export const GET_PEER_CIRCLES = gql`
   {
-    getPeerCircles {
+    getAllPeerCircles {
       id
       name
       description
+      admin {
+        name
+      }
+      threads {
+        title
+        author {
+          name
+        }
+        body
+        comments {
+          text
+          likes
+          author {
+            name
+          }
+        }
+      }
     }
   }
 `;

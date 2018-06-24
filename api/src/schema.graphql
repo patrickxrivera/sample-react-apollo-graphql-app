@@ -1,13 +1,16 @@
-# import PeerCircle, AuthPayload, User from "./generated/prisma.graphql"
+# import PeerCircle, AuthPayload, User, Comment from "./generated/prisma.graphql"
 
 type Query {
   # User
-  getUsers: [User!]!
-  getUserById(id: ID!): User
+  getAllUsers: [User!]!
+  getUserById: User
 
   # Peer Circle
-  getPeerCircles: [PeerCircle!]!
+  getAllPeerCircles: [PeerCircle]!
   getPeerCircleById(id: ID!): PeerCircle
+
+  # Replies
+  getAllRepliesByUserId: User
 }
 
 type Mutation {
@@ -17,8 +20,7 @@ type Mutation {
 
   # PeerCircle
   createPeerCircle(name: String!, description: String!): PeerCircle!
-  deletePeerCircle(id: ID!): PeerCircle
-  updatePeerCircle(id: ID!): PeerCircle
+  joinPeerCircle(peerCircleId: ID!): PeerCircle
 
   # Thread
   createThread(title: String!, body: String!, peerCircleId: ID!): Thread!
