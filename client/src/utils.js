@@ -10,3 +10,9 @@ const renderLoading = () => <div>Loading...</div>;
 export const saveUserData = (token) => {
   localStorage.setItem(AUTH_TOKEN, token);
 };
+
+export const getPrevPath = (pathname) =>
+  pathname
+    .split('/')
+    .slice(0, -1)
+    .join('/');

@@ -8,15 +8,15 @@ import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter } from 'react-router-dom';
 
 import App from './components/App';
+import { AUTH_TOKEN } from './constants';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000'
 });
 
 const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  const token = localStorage.getItem('token');
-  // return the headers to the context so httpLink can read them
+  const token = localStorage.getItem(AUTH_TOKEN);
+
   return {
     headers: {
       ...headers,

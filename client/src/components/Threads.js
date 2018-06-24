@@ -24,7 +24,13 @@ const renderThreads = (
     <h1>{name}</h1>
     <p>{description}</p>
     <p>Admin: {admin.name}</p>
-    <Link to={`${pathname}/new`}>
+    <Link
+      to={{
+        pathname: `${pathname}/new`,
+        state: {
+          peerCircleId
+        }
+      }}>
       <button>Create Thread</button>
     </Link>
     <hr />

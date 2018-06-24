@@ -15,3 +15,11 @@ export const LOGIN = gql`
     }
   }
 `;
+
+export const CREATE_THREAD = gql`
+  mutation createThread($peerCircleId: ID!, $title: String!, $body: String!) {
+    createThread(peerCircleId: $peerCircleId, title: $title, body: $body) {
+      id
+    }
+  }
+`;
