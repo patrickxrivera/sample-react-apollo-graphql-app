@@ -6,7 +6,7 @@ const Thread = (props) => {
   const { title, author, body, comments, prevPath } = props.location.state;
 
   return (
-    <div>
+    <div key={title}>
       <h2>{title}</h2>
       <p>{body}</p>
       <p>By: {author.name}</p>
@@ -16,14 +16,16 @@ const Thread = (props) => {
   );
 };
 
-const renderComment = ({ author, likes, text }) => [
-  <p>{text}</p>,
-  <div style={{ display: 'flex' }}>
-    <p>
-      {author.name} | {likes} likes
-    </p>
-  </div>,
-  <hr />
-];
+const renderComment = ({ author, likes, text }) => (
+  <div key={`${text}`}>
+    <p>{text}</p>
+    <div style={{ display: 'flex' }}>
+      <p>
+        {author.name} | {likes} likes
+      </p>
+    </div>
+    <hr />
+  </div>
+);
 
 export default Thread;

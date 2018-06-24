@@ -7,8 +7,8 @@ const Threads = (props) => {
 
   return (
     <div>
-      <h1>Threads for {name}</h1>
-      <h4>Admin: {admin.name}</h4>
+      <h1>{name}</h1>
+      <p>Admin: {admin.name}</p>
       <hr />
       {threads.map(renderThread(pathname, id))}
       <Link to="/">
