@@ -20,6 +20,28 @@ export const CREATE_THREAD = gql`
   mutation createThread($peerCircleId: ID!, $title: String!, $body: String!) {
     createThread(peerCircleId: $peerCircleId, title: $title, body: $body) {
       id
+      title
+      author {
+        name
+      }
+      body
+      comments {
+        id
+        text
+        likes
+        author {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const CREATE_PEER_CIRCLE = gql`
+  mutation createPeerCircle($name: String!, $description: String!) {
+    createPeerCircle(name: $name, description: $description) {
+      id
     }
   }
 `;

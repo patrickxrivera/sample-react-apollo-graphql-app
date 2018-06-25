@@ -27,9 +27,11 @@ export const GET_THREADS_BY_PEER_CIRCLE_ID = gql`
         }
         body
         comments {
+          id
           text
           likes
           author {
+            id
             name
           }
         }

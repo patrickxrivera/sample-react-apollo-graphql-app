@@ -13,6 +13,9 @@ const handlePeerCircles = ({ loading, error, data }) =>
 
 const renderPeerCircles = ({ getAllPeerCircles }) => [
   <h1 key={1}>All Peer Circles:</h1>,
+  <Link to="/peer-circle/new" key={2}>
+    <button>Create Peer Circle</button>
+  </Link>,
   getAllPeerCircles.map(renderPeerCircle)
 ];
 

@@ -42,7 +42,7 @@ const renderThreads = (
 );
 
 const renderThread = (pathname, peerCircleId) => ({ id, title, author, comments, ...rest }) => (
-  <div key={title}>
+  <div key={id}>
     <h3>{title}</h3>
     <p>By: {author.name}</p>
     <p>{comments.length === 1 ? `${comments.length} comment` : `${comments.length} comments`}</p>

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { graphql, compose } from 'react-apollo';
+import { graphql } from 'react-apollo';
 
-import { getPrevPath } from '../utils';
 import { CREATE_THREAD } from '../graphql/mutations';
+import { GET_THREADS_BY_PEER_CIRCLE_ID } from '../graphql/queries';
+import { getPrevPath } from '../utils';
 
 const style = {
   body: {
@@ -24,14 +25,34 @@ class CreateThread extends React.Component {
     this.setState({ [prop]: e.target.value });
   };
 
-  handleThreadSubmit = (prevPath, peerCircleId) => async () => {
+  handleSubmit = (peerCircleId, prevPath) => () => {
+    const { mutate, history } = this.props;
     const { title, body } = this.state;
-    const { history, createThread } = this.props;
 
-    createThread({
-      variables: { peerCircleId, title, body }
-    }).catch((err) => {
-      throw new Error(err);
+    mutate({
+      variables: { peerCircleId, title, body },
+
+      update: (store, { data: { createThread } }) => {
+        const data = store.readQuery({
+          query: GET_THREADS_BY_PEER_CIRCLE_ID,
+          variables: { id: peerCircleId }
+        });
+
+        data.getPeerCircleById.threads.push(createThread);
+
+        store.writeQuery({
+          query: GET_THREADS_BY_PEER_CIRCLE_ID,
+          variables: { id: peerCircleId },
+          data
+        });
+      },
+
+      optimisticResponse: {
+        __typename: 'Mutation',
+        createThread: {
+          __typename: 'Thread'
+        }
+      }
     });
 
     history.push(prevPath, { id: peerCircleId });
@@ -57,7 +78,7 @@ class CreateThread extends React.Component {
             onChange={this.handleInputChange('body')}
           />
         </div>
-        <button style={style.submit} onClick={this.handleThreadSubmit(prevPath, peerCircleId)}>
+        <button style={style.submit} onClick={this.handleSubmit(peerCircleId, prevPath)}>
           Submit
         </button>
         <Link
@@ -74,4 +95,4 @@ class CreateThread extends React.Component {
   }
 }
 
-export default compose(graphql(CREATE_THREAD, { name: 'createThread' }))(CreateThread);
+export default graphql(CREATE_THREAD)(CreateThread);
