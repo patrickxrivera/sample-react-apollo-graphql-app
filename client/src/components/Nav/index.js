@@ -15,7 +15,8 @@ const style = {
     alignItems: 'center'
   },
   title: {
-    marginRight: '10px'
+    marginRight: '10px',
+    marginBottom: 'inherit'
   },
   link: {
     textDecoration: 'none',
@@ -34,7 +35,7 @@ const Nav = ({ history }) => {
   return (
     <div style={style.wrapper}>
       <NavLink exact to="/" style={style.link}>
-        <h3 style={style.title}>Career Karma</h3>
+        <h5 style={style.title}>Career Karma</h5>
       </NavLink>
       {isAuthenticated ? renderLogout(history) : renderLogin()}
     </div>
@@ -55,13 +56,13 @@ const renderLogin = () => (
   <div>
     <NavLink
       to={{
-        pathname: '/login',
+        pathname: '/start/1',
         state: {
           isLogin: false
         }
       }}
       style={style.signup}>
-      <span>Signup</span>
+      <span>Sign Up</span>
     </NavLink>
     <NavLink
       to={{
@@ -71,7 +72,7 @@ const renderLogin = () => (
         }
       }}
       style={style.link}>
-      <span>Login</span>
+      <span>Log In</span>
     </NavLink>
   </div>
 );

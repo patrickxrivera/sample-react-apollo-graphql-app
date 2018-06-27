@@ -11,7 +11,8 @@ import {
   Login,
   CreateThread,
   CreatePeerCircle,
-  Wrapper
+  Wrapper,
+  SignUp
 } from 'shared';
 
 const App = () => (
@@ -22,6 +23,7 @@ const App = () => (
       <Switch>
         <Route exact path="/" component={Home} />
         <Route path="/login" component={Login} />
+        <Route path="/start/:step" component={SignUp} />
         <Route exact path="/:peerCircle/threads" component={Threads} />
         <Route path="/:peerCircle/threads/new" component={CreateThread} />
         <Route path="/:peerCircle/threads/:id" component={Thread} />

@@ -8,10 +8,14 @@ import CreatePeerCircle from 'components/PeerCircles/CreatePeerCircle';
 import PeerCircles from 'components/PeerCircles';
 import Threads from 'components/Thread/Threads';
 import Thread from 'components/Thread';
+import SignUp from 'components/Auth/SignUp';
 import Button from './components/Button';
 import Phone from './components/Phone';
 import Wrapper from './components/Wrapper';
+import CredentialsContainer from 'components/Auth/SignUp/Credentials';
+import Input from './components/Input';
 import Test from './components/Test';
+import { Form, FormHeading } from './components/Form';
 
 export {
   App,
@@ -27,5 +31,10 @@ export {
   Test,
   Button,
   Phone,
-  Wrapper
+  Wrapper,
+  FormHeading,
+  Form,
+  CredentialsContainer,
+  SignUp,
+  Input
 };
