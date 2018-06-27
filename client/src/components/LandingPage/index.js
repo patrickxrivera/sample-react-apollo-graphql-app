@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Button } from 'shared';
 
 const style = {
   wrapper: {
@@ -26,7 +27,9 @@ const LandingPage = () => (
             isLogin: false
           }
         }}>
-        <button>Get started</button>
+        <Button color={'secondary'} fontSize={'16px'} width={'200px'}>
+          Get started
+        </Button>
       </Link>
     </div>
   </div>

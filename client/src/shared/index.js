@@ -8,6 +8,9 @@ import CreatePeerCircle from 'components/PeerCircles/CreatePeerCircle';
 import PeerCircles from 'components/PeerCircles';
 import Threads from 'components/Thread/Threads';
 import Thread from 'components/Thread';
+import Button from './components/Button';
+import Phone from './components/Phone';
+import Wrapper from './components/Wrapper';
 import Test from './components/Test';
 
 export {
@@ -21,5 +24,8 @@ export {
   Thread,
   CreateThread,
   Nav,
-  Test
+  Test,
+  Button,
+  Phone,
+  Wrapper
 };

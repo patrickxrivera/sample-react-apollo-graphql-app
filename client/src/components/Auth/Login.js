@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 
+import { Button } from 'shared';
 import { saveUserData } from 'helpers/utils';
 import { SIGNUP, LOGIN } from 'graphql/mutations';
 
@@ -92,7 +93,9 @@ class Login extends Component {
           />
         </div>
         <div>
-          <button onClick={this.confirm}>{isLogin ? 'login' : 'create account'}</button>
+          <Button height={'40px'} onClick={this.confirm}>
+            {isLogin ? 'login' : 'create account'}
+          </Button>
         </div>
       </div>
     );
