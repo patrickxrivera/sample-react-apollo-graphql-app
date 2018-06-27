@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import Home from './Home';
 import Threads from './Threads';
 import Thread from './Thread';
-import Nav from './Nav';
+import { Nav, Test } from 'shared';
 import Login from './Login';
 import CreateThread from './CreateThread';
 import CreatePeerCircle from './CreatePeerCircle';
@@ -30,6 +30,7 @@ const App = () => (
       <Route path="/:peerCircle/threads/new" component={CreateThread} />
       <Route path="/:peerCircle/threads/:id" component={Thread} />
       <Route path="/peer-circle/new" component={CreatePeerCircle} />
+      <Route path="/test" component={Test} />
     </Switch>
   </div>
 );
