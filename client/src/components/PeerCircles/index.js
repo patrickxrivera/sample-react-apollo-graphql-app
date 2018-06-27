@@ -3,8 +3,8 @@ import { Query } from 'react-apollo';
 import { isEmpty } from 'ramda';
 import { Link } from 'react-router-dom';
 
-import { GET_PEER_CIRCLES } from '../graphql/queries';
-import { handleNoData } from '../utils';
+import { GET_PEER_CIRCLES } from 'graphql/queries';
+import { handleNoData } from 'helpers/utils';
 
 const PeerCircles = () => <Query query={GET_PEER_CIRCLES}>{handlePeerCircles}</Query>;
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { getPrevPath } from '../utils';
+import { getPrevPath } from 'helpers/utils';
 
 const Thread = (props) => {
   const { pathname } = props.location;

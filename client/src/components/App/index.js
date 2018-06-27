@@ -1,13 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import Home from './Home';
-import Threads from './Threads';
-import Thread from './Thread';
-import { Nav, Test } from 'shared';
-import Login from './Login';
-import CreateThread from './CreateThread';
-import CreatePeerCircle from './CreatePeerCircle';
+import { Nav, Test, Home, Threads, Thread, Login, CreateThread, CreatePeerCircle } from 'shared';
 
 const wrapper = {
   width: '800px',

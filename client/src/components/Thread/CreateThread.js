@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 
-import { CREATE_THREAD } from '../graphql/mutations';
-import { GET_THREADS_BY_PEER_CIRCLE_ID } from '../graphql/queries';
-import { getPrevPath } from '../utils';
+import { CREATE_THREAD } from 'graphql/mutations';
+import { GET_THREADS_BY_PEER_CIRCLE_ID } from 'graphql/queries';
+import { getPrevPath } from 'helpers/utils';
 
 const style = {
   body: {

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 
-import { saveUserData } from '../utils';
-import { SIGNUP, LOGIN } from '../graphql/mutations';
+import { saveUserData } from 'helpers/utils';
+import { SIGNUP, LOGIN } from 'graphql/mutations';
 
 const style = {
   form: {

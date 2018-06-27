@@ -1,8 +1,7 @@
 import React from 'react';
 
-import PeerCircles from './PeerCircles';
-import LandingPage from './LandingPage';
-import { AUTH_TOKEN } from '../constants';
+import { PeerCircles, LandingPage } from 'shared';
+import { AUTH_TOKEN } from 'helpers/constants';
 
 const Home = () => {
   const authToken = localStorage.getItem(AUTH_TOKEN);

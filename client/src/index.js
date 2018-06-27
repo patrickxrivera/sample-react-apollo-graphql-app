@@ -7,9 +7,11 @@ import { render } from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter } from 'react-router-dom';
 
-import App from './components/App';
-import { AUTH_TOKEN } from './constants';
+import { App } from 'shared';
+import { AUTH_TOKEN } from 'helpers/constants';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './shared/styles/overrides.css';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000'

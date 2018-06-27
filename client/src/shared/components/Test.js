@@ -3,7 +3,7 @@ import Button from './Button';
 
 const Test = () => (
   <div>
-    <Button color="primary">Sign Up</Button>
+    <Button>Sign Up</Button>
   </div>
 );
 

@@ -3,8 +3,8 @@ import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import { isEmpty } from 'ramda';
 
-import { handleNoData } from '../utils';
-import { GET_THREADS_BY_PEER_CIRCLE_ID } from '../graphql/queries';
+import { handleNoData } from 'helpers/utils';
+import { GET_THREADS_BY_PEER_CIRCLE_ID } from 'graphql/queries';
 
 const Threads = ({ location: { state: { id }, pathname } }) => (
   <Query query={GET_THREADS_BY_PEER_CIRCLE_ID} variables={{ id }}>

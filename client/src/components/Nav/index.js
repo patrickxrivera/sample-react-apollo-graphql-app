@@ -1,8 +1,7 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 
-import { AUTH_TOKEN } from '../constants';
-import { NavLink } from 'react-router-dom';
+import { AUTH_TOKEN } from 'helpers/constants';
 
 const style = {
   wrapper: {

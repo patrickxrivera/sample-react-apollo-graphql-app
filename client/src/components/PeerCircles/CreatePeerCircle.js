@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';
 
-import { CREATE_PEER_CIRCLE } from '../graphql/mutations';
+import { CREATE_PEER_CIRCLE } from 'graphql/mutations';
 
 const style = {
   body: {
