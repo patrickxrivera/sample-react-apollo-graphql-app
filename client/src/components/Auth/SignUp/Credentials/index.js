@@ -1,6 +1,7 @@
 import React from 'react';
+import styled from 'styled-components';
 
-import { Form, FormHeading, Input } from 'shared';
+import { Form, FormHeading, Input, Button, Flex } from 'shared';
 
 const Credentials = () => (
   <div>
@@ -8,6 +9,11 @@ const Credentials = () => (
     <Form>
       <Input type="email" name="email" placeholder="Email" />
       <Input type="password" name="password" placeholder="Password" />
+      <Flex.AlignCenter>
+        <Button width="100%" height="45px" marginTop="18px">
+          Next
+        </Button>
+      </Flex.AlignCenter>
     </Form>
   </div>
 );

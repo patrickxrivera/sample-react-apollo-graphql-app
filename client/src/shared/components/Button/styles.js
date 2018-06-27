@@ -12,6 +12,7 @@ const ButtonStyles = styled.button`
   height: ${({ height }) => height};
   border-radius: 5px;
   font-weight: bold;
+  margin-top: ${({ marginTop }) => marginTop}
 
   &:hover {
     background-color: ${({ color }) =>

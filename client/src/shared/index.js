@@ -14,6 +14,7 @@ import Phone from './components/Phone';
 import Wrapper from './components/Wrapper';
 import CredentialsContainer from 'components/Auth/SignUp/Credentials';
 import Input from './components/Input';
+import * as Flex from './components/Flex';
 import Test from './components/Test';
 import { Form, FormHeading } from './components/Form';
 
@@ -36,5 +37,6 @@ export {
   Form,
   CredentialsContainer,
   SignUp,
-  Input
+  Input,
+  Flex
 };

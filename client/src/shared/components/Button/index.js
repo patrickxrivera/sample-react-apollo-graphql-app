@@ -9,18 +9,26 @@ const propTypes = {
   hoverColor: string,
   width: string,
   height: string,
-  fontSize: string
+  fontSize: string,
+  marginTop: string
 };
 
 const defaultProps = {
   color: 'primary',
   fontSize: '14px',
   width: sizes.button.width,
-  height: sizes.button.height
+  height: sizes.button.height,
+  marginTop: '0px'
 };
 
-const Button = ({ color, width, height, fontSize, children, ...props }) => (
-  <ButtonStyles color={color} width={width} height={height} fontSize={fontSize} {...props}>
+const Button = ({ color, width, height, fontSize, children, marginTop, ...props }) => (
+  <ButtonStyles
+    color={color}
+    width={width}
+    height={height}
+    fontSize={fontSize}
+    marginTop={marginTop}
+    {...props}>
     {children}
   </ButtonStyles>
 );
