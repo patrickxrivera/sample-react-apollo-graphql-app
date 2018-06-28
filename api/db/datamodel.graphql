@@ -1,8 +1,9 @@
 type User {
   id: ID! @unique
-  name: String!
   email: String! @unique
   password: String!
+  firstName: String!
+  lastName: String!
   replies: [Comment!]! @relation(name: "UserReplies")
   createdThreads: [Thread!]! @relation(name: "UserCreatedThread")
   participatingThreads: [Thread!]! @relation(name: "UserParticipatingThread")

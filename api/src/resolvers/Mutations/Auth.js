@@ -3,12 +3,12 @@ const jwt = require('jsonwebtoken');
 const { APP_SECRET } = require('../../utils');
 
 const signUp = async (root, { password, ...rest }, ctx, info) => {
-  console.log(rest);
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = await ctx.db.mutation.createUser(
     {
-      data: { ...rest, password: hashedPassword }
+      // default values for firstName and lastName in case user drops off after sign up screen
+      data: { password: hashedPassword, firstName: '', lastName: '', ...rest }
     },
     `{ id  }`
   );
