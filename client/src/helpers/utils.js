@@ -16,3 +16,5 @@ export const getPrevPath = (pathname) =>
     .split('/')
     .slice(0, -1)
     .join('/');
+
+export const not = (fn) => (...args) => !fn(...args);

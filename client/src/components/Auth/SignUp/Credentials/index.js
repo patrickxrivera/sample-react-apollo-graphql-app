@@ -16,6 +16,7 @@ const Credentials = ({ email, password, handleInputChange, handleFormSubmit, han
         showErrorStyles={email.showErrorText}
         handleBlur={handleBlur}
         autoFocus
+        data-test="email"
       />
       <ErrorTextWrapper>
         {email.showErrorText && <ErrorText>{email.errorText}</ErrorText>}

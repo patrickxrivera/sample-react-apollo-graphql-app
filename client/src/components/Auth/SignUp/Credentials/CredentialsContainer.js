@@ -2,9 +2,15 @@ import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
 
 import Credentials from './';
-import { isValidCredentials, validateEmail, validatePassword, errorTextIsShowing } from './helpers';
-
-const isEmail = (val) => val === 'email';
+import {
+  isValidCredentials,
+  invalidEmail,
+  invalidPassword,
+  validateEmail,
+  validatePassword,
+  errorTextIsShowing,
+  isEmail
+} from './helpers';
 
 class CredentialsContainer extends PureComponent {
   state = {
@@ -39,9 +45,7 @@ class CredentialsContainer extends PureComponent {
   };
 
   handleEmailValidation = async (email) => {
-    const isInvalidEmail = !validateEmail(email.value);
-
-    if (isInvalidEmail) return;
+    if (invalidEmail(email.value)) return;
 
     if (errorTextIsShowing(this.state.email)) {
       this.setState({
@@ -54,9 +58,7 @@ class CredentialsContainer extends PureComponent {
   };
 
   handlePasswordValidation = (password) => {
-    const isInvalidPassword = !validatePassword(password.value);
-
-    if (isInvalidPassword) return;
+    if (invalidPassword(password.value)) return;
 
     if (errorTextIsShowing(this.state.password)) {
       this.setState({

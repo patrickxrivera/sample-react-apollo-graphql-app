@@ -22,12 +22,12 @@ const LandingPage = () => (
       <p>Give time to get time.</p>
       <Link
         to={{
-          pathname: '/login',
+          pathname: '/start/1',
           state: {
             isLogin: false
           }
         }}>
-        <Button color={'secondary'} fontSize={'16px'} width={'200px'}>
+        <Button color={'primary'} fontSize={'16px'} width={'200px'}>
           Get started
         </Button>
       </Link>
