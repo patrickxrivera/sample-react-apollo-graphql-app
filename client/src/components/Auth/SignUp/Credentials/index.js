@@ -34,6 +34,7 @@ const Credentials = ({ email, password, handleInputChange, handleFormSubmit, han
       <ErrorTextWrapper>
         {password.showErrorText && <ErrorText>{password.errorText}</ErrorText>}
       </ErrorTextWrapper>
+
       <Flex.AlignCenter>
         <Button
           onClick={handleFormSubmit}

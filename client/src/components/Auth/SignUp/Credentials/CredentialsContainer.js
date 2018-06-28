@@ -1,5 +1,8 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router-dom';
+import { graphql, compose } from 'react-apollo';
+import { saveUserData } from 'helpers/utils';
+import { SIGNUP } from 'graphql/mutations';
 
 import Credentials from './';
 import {
@@ -30,6 +33,7 @@ class CredentialsContainer extends PureComponent {
 
   handleInputChange = async (e) => {
     const { email, password } = this.state;
+    // changedProp is either "email" or "password" depending on which was changed
     const changedProp = e.target.name;
 
     await this.setState({
@@ -98,8 +102,21 @@ class CredentialsContainer extends PureComponent {
       : this.handleInvalidCredentials();
   };
 
-  handleValidCredentials = (email, password) => {
-    this.props.history.push('/start/2');
+  handleValidCredentials = async (email, password) => {
+    const { signUpMutation, history } = this.props;
+
+    const result = await signUpMutation({
+      variables: {
+        email: email.value,
+        password: password.value
+      }
+    });
+
+    const { token } = result.data.signUp;
+
+    saveUserData(token);
+
+    history.push('/start/2');
   };
 
   handleInvalidCredentials = () => {
@@ -128,4 +145,6 @@ class CredentialsContainer extends PureComponent {
   }
 }
 
-export default withRouter(CredentialsContainer);
+export default compose(graphql(SIGNUP, { name: 'signUpMutation' }))(
+  withRouter(CredentialsContainer)
+);
