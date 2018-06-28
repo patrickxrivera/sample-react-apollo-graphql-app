@@ -3,8 +3,6 @@ type User {
   name: String!
   email: String! @unique
   password: String!
-  adminOf: [PeerCircle!]! @relation(name: "UserAdminPeerCircle")
-  memberOf: [PeerCircle!]! @relation(name: "UserMemberOfPeerCircle")
   replies: [Comment!]! @relation(name: "UserReplies")
   createdThreads: [Thread!]! @relation(name: "UserCreatedThread")
   participatingThreads: [Thread!]! @relation(name: "UserParticipatingThread")
@@ -14,8 +12,6 @@ type PeerCircle {
   id: ID! @unique
   name: String!
   description: String!
-  admin: User! @relation(name: "UserAdminOfPeerCircle")
-  members: [User!]! @relation(name: "UserMemberOfPeerCircle")
   threads: [Thread!]! @relation(name: "PeerCircleThread")
 }
 

@@ -16,14 +16,13 @@ const handleThreads = (pathname, peerCircleId) => ({ loading, error, data }) =>
   isEmpty(data) ? handleNoData(loading, error) : renderThreads(data, pathname, peerCircleId);
 
 const renderThreads = (
-  { getPeerCircleById: { admin, threads, name, description } },
+  { getPeerCircleById: { threads, name, description } },
   pathname,
   peerCircleId
 ) => (
   <div>
     <h1>{name}</h1>
     <p>{description}</p>
-    <p>Admin: {admin.name}</p>
     <Link
       to={{
         pathname: `${pathname}/new`,

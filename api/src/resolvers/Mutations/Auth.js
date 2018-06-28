@@ -2,7 +2,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { APP_SECRET } = require('../../utils');
 
-const signup = async (root, { password, ...rest }, ctx, info) => {
+const signUp = async (root, { password, ...rest }, ctx, info) => {
+  console.log(rest);
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const user = await ctx.db.mutation.createUser(
@@ -42,6 +43,6 @@ const login = async (root, { email, password }, ctx, info) => {
 };
 
 module.exports = {
-  signup,
+  signUp,
   login
 };

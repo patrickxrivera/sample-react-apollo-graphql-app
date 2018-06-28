@@ -16,9 +16,6 @@ export const GET_THREADS_BY_PEER_CIRCLE_ID = gql`
       id
       name
       description
-      admin {
-        name
-      }
       threads {
         id
         title
