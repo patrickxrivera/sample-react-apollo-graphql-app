@@ -4,7 +4,6 @@ import { Switch, Route } from 'react-router-dom';
 import {
   Nav,
   Phone,
-  Test,
   Home,
   Threads,
   Thread,
@@ -28,7 +27,6 @@ const App = () => (
         <Route path="/:peerCircle/threads/new" component={CreateThread} />
         <Route path="/:peerCircle/threads/:id" component={Thread} />
         <Route path="/peer-circle/new" component={CreatePeerCircle} />
-        <Route path="/test" component={Test} />
       </Switch>
     </Phone>
   </Wrapper>

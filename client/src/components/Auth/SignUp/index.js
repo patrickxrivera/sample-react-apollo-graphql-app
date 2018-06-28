@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { CredentialsContainer } from 'shared';
+import { CredentialsContainer, Name } from 'shared';
 import SignUpWrapper from './styles';
 
 const SignUp = (props) => (
@@ -15,6 +15,8 @@ const SignUpController = (props) => {
   switch (currStep) {
     case '1':
       return <CredentialsContainer />;
+    case '2':
+      return <Name />;
     default:
       return <div>Sign Up</div>;
   }

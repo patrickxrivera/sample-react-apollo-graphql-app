@@ -1,3 +1,4 @@
+import * as Flex from './components/Flex';
 import App from 'components/App';
 import CreateThread from 'components/Thread/CreateThread';
 import Nav from 'components/Nav';
@@ -12,10 +13,9 @@ import SignUp from 'components/Auth/SignUp';
 import Button from './components/Button';
 import Phone from './components/Phone';
 import Wrapper from './components/Wrapper';
-import CredentialsContainer from 'components/Auth/SignUp/Credentials';
+import CredentialsContainer from 'components/Auth/SignUp/Credentials/CredentialsContainer';
 import Input from './components/Input';
-import * as Flex from './components/Flex';
-import Test from './components/Test';
+import Name from 'components/Auth/SignUp/Name/index.js';
 import { Form, FormHeading } from './components/Form';
 
 export {
@@ -29,7 +29,7 @@ export {
   Thread,
   CreateThread,
   Nav,
-  Test,
+  Name,
   Button,
   Phone,
   Wrapper,
